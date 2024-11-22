@@ -52,11 +52,12 @@ public class User {
 	public Account getAccount(){
 		return this.userAccount;
 		}
-//	public boolean equals(Object o){
-//		if(userName.equals(o.))
-//		return false;
-//		
-//	}
+	public boolean equals(Object o){
+		User temp = (User) o;
+		if(this.userPassword.equals(temp.userPassword)) return true;
+		return false;
+		
+	}
 	
 }
 /*
