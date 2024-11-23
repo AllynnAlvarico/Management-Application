@@ -25,6 +25,16 @@ public class User {
 		this.userAccount = account;
 	}
 	
+	/**
+	 * Anson - I commit a change on adding a constructor that only contains user name and password
+	 * Use - This change is only for testing the register and login function
+	 * Change Commit Line - 28 until 36
+	 */
+	public User(String name, String password){
+		this.userName = name;
+		this.userPassword = password;
+	}
+	
 	public void changeUserName(String name){
 		this.userName = name;
 	}
