@@ -16,9 +16,13 @@ public class ManagementSystem {
 	}
 	
 	public void addUser(String inputUserName, String inputPassword) {
+		int givenId =  rand.nextInt();
+		String result = "MAUN" + givenId;
+		//need to add a function that will stop a duplicate number on the accountID
+		User userTobeAdded = new User(inputUserName, inputPassword);
+		userTobeAdded.setUniqueId(result);
+		users.add(userTobeAdded);
 		
-		String result = "MAUN" + rand.nextInt();
-		users.add(new User(inputUserName, inputPassword, result));
 	}
 	
 	public boolean isUserNameExists(String element) {

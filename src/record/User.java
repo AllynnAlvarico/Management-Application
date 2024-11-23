@@ -13,17 +13,17 @@ public class User {
 	private String userUnique;
 	private Account userAccount;
 	
-	public User(String name, String password, String uniqueID){
+	public User(String name, String password){
 		this.userName = name;
 		this.userPassword = password;
-		this.userUnique = uniqueID;
+		this.userAccount = null;
 	}
 	
-	public User(String name, String password, Account account){
-		this.userName = name;
-		this.userPassword = password;
-		this.userAccount = account;
-	}
+//	public User(String name, String password, String uniqueID){
+//		this.userName = name;
+//		this.userPassword = password;
+//		this.userUnique = uniqueID;
+//	}
 	
 	public void changeUserName(String name){
 		this.userName = name;
