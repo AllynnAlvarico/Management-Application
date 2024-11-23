@@ -26,16 +26,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JMenuItem signUp, logIn, logOut, quite;
 	private JMenuBar menuBar;
 	
-	//variable for register
-	private JLabel welcomeMassage;
-	private JTextField username;
-	private JPasswordField password;
-	
-	//variable for login
-	private JPanel dialogPanel2;
-	private JTextField usernameL;
-	private JPasswordField passwordL;
-	
 	private LinkedList<User> list;
 	private User u;
 	
@@ -51,7 +41,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		menu();
 		
 		this.setSize(WIDTH,HEIGHT);
-		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 	}
 	
@@ -60,8 +49,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		
 		//defining the object
 		user = new JMenu("User");
-		signUp = new JMenuItem("Sign Up");
-		logIn = new JMenuItem("Log In");
 		logOut = new JMenuItem("Log Out");
 		user.addSeparator(); //adding line between
 		quite = new JMenuItem("Quite");
@@ -75,21 +62,15 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		placeOrder.setEnabled(false);
 		
 		//set the short cut for the function
-		signUp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,Event.CTRL_MASK));
-		logIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,Event.CTRL_MASK));
 		logOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,Event.CTRL_MASK));
 		quite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,Event.CTRL_MASK));
 		
 		//adding to the user menu
-		user.add(signUp);
-		user.add(logIn);
 		user.add(logOut);
 		user.add(quite);
 		
 		
 		//adding action to the menu
-		signUp.addActionListener(this);
-		logIn.addActionListener(this);
 		logOut.addActionListener(this);
 		quite.addActionListener(this);
 		
@@ -105,11 +86,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getActionCommand().equals("Sign Up")) {
-			signUp();
-		} else if (e.getActionCommand().equals("Log In")) {
-			logIn();
-		} else if (e.getActionCommand().equals("Log Out")) {
+		if (e.getActionCommand().equals("Log Out")) {
 			logOut();
 		} else {
 			System.exit(0);
@@ -117,6 +94,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	//method for register an account
+	/**
 	public void signUp() {
 		dialogPane = new JPanel();
 		username = new JTextField(15);
@@ -165,8 +143,10 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 			}
 		}
 	}
+	**/
 	
 	//method for log in function
+	/**
 	public void logIn() {
 		User user = null;
 		dialogPanel2 = new JPanel();
@@ -186,12 +166,12 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 			String name = usernameL.getText();
 			String pass = String.valueOf(passwordL.getPassword());
 				
-			/**
+			//
 			 * Within the login function, it will check first if the list are empty then display message "not yet register"
 			 * If the list is not empty, it will check is user is exits, if it no exists, display message
 			 * else if the user is exists, it will check if the user has login, 
 			 * attempt < 1 mean did not login then process to login, else mean it already login display error message
-			 */
+			 //
 			
 			if(list.isEmpty()) {
 				try {
@@ -222,7 +202,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 				}
 			}
 		}
-	}
+	}**/
 	
 	//search function for log in
 	public User searchUser(String name, String pass) {
