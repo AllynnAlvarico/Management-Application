@@ -47,6 +47,23 @@ public class ManagementSystem {
 		return null;
 	}
 	
+	// Anson - Commit change on line 46 - 23/11/2024 for create a method to check is
+	public boolean isListEmpty(boolean isExists) {
+		if (users.isEmpty()) return isExists = true; else return isExists = false;	
+	}
+	
+	// Anson - Commit change on line 51 - 23/11/2024 for create a method to search user name and password
+	public User searchFunction(String name, String pass) {
+		User user = null;
+		for (User u: users) {
+			if (name.equalsIgnoreCase(u.getUserName()) && pass.equals(u.getUserPassword())) {
+				user = u;
+				return user;
+			}
+		}
+		return null;
+	}
+	
 }
 
 /*
