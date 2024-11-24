@@ -11,6 +11,7 @@ public class User {
 	private String userName;
 	private String userPassword;
 	private String userUnique;
+	private int attempt;
 	private Account userAccount;
 	
 	public User(String name, String password, String uniqueID){
@@ -25,6 +26,17 @@ public class User {
 		this.userAccount = account;
 	}
 	
+	/**
+	 * Anson - I commit a change on adding a constructor that only contains user name, password, and attempt to track is user login or not
+	 * Use - This change is only for testing the register and login function
+	 * Change Commit Line - 29 until 38
+	 */
+	public User(String name, String password){
+		this.userName = name;
+		this.userPassword = password;
+		this.attempt = attempt;
+	}
+	
 	public void changeUserName(String name){
 		this.userName = name;
 	}
@@ -35,6 +47,10 @@ public class User {
 	
 	public void setUniqueId(String givenID){
 		this.userUnique = givenID;
+	}
+	
+	public void setAttempt(int attempt) {
+		this.attempt = attempt;
 	}
 	
 	public String getUserName(){
@@ -49,9 +65,19 @@ public class User {
 		return this.userUnique;
 	}
 	
+	//===============================================================
+	// Anson - create a get setter for attempt for keep tracking user
+	// Commit change on 23/11/2024
+	// On line 64 until 71
+	//===============================================================
+	public int getAttempt() {
+		return this.attempt;
+	}
+	
 	public Account getAccount(){
 		return this.userAccount;
-		}
+	}
+	
 	public boolean equals(Object o){
 		User temp = (User) o;
 		if(this.userPassword.equals(temp.userPassword)) return true;
