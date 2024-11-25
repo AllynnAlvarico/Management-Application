@@ -3,22 +3,24 @@ import record.User;
 import administrative.ManagementSystem;
 
 import java.awt.BorderLayout;
+import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 
 import javax.swing.*;
 
 public class LoginWindow extends JFrame{
 	
-	private JPanel tLoginPanel, cLoginPanel, bLoginPanel;
-	private JLabel message;
-	private JTextField username;
-	private JPasswordField password;
-	private JButton loginB, cancelB;
+	private JPanel pnlTop, pnlCentral, pnlBottom;
+	private JLabel txtLoginMessage;
+	private JTextField fldUsername;
+	private JPasswordField fldPassword;
+	private JButton btnLogin, btnCancel;
 	
 	//loading panel
 	static JFrame loadDialog;
@@ -43,42 +45,44 @@ public class LoginWindow extends JFrame{
 	}
 	
 	public void loginPanel() {
-		tLoginPanel = new JPanel();
-		cLoginPanel = new JPanel();
-		bLoginPanel = new JPanel();
-		message = new JLabel("Login Section");
-		username = new JTextField(10);
-		password = new JPasswordField(10);
-		loginB = new JButton("Login");
-		cancelB = new JButton("Cancel");
+		pnlTop = new JPanel();
+		pnlCentral = new JPanel();
+		pnlBottom = new JPanel();
+		txtLoginMessage = new JLabel("Login Section");
+		fldUsername = new JTextField(10);
+		fldPassword = new JPasswordField(10);
+		btnLogin = new JButton("Login");
+		btnCancel = new JButton("Cancel");
+		
+		btnLogin.setMnemonic(KeyEvent.VK_ENTER);
 		
 		loginButton();
 		cancelButton();
 		
-		tLoginPanel.add(message);
-		cLoginPanel.add(new JLabel("Username: "));
-		cLoginPanel.add(username);
-		cLoginPanel.add(new JLabel("Password: "));
-		cLoginPanel.add(password);
-		bLoginPanel.add(loginB);
-		bLoginPanel.add(cancelB);
+		pnlTop.add(txtLoginMessage);
+		pnlCentral.add(new JLabel("Username: "));
+		pnlCentral.add(fldUsername);
+		pnlCentral.add(new JLabel("Password: "));
+		pnlCentral.add(fldPassword);
+		pnlBottom.add(btnLogin);
+		pnlBottom.add(btnCancel);
 		
-		message.setFont(new Font("Arial",Font.BOLD,20));
-		cLoginPanel.setLayout(new GridLayout(2,2));
+		txtLoginMessage.setFont(new Font("Arial",Font.BOLD,20));
+		pnlCentral.setLayout(new GridLayout(2,2));
 		
-		this.add(tLoginPanel, BorderLayout.NORTH);
-		this.add(cLoginPanel, BorderLayout.CENTER);
-		this.add(bLoginPanel, BorderLayout.SOUTH);
+		this.add(pnlTop, BorderLayout.NORTH);
+		this.add(pnlCentral, BorderLayout.CENTER);
+		this.add(pnlBottom, BorderLayout.SOUTH);
 	}
 	
 	public void loginButton() {
-		loginB.addActionListener(new ActionListener() {
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				User user = null;
 				if (e.getActionCommand().equals("Login")) {
 					
-					String name = username.getText();
-					String pass = String.valueOf(password.getPassword());
+					String name = fldUsername.getText();
+					String pass = String.valueOf(fldPassword.getPassword());
 					
 					try {
 						if (shareList.isEmpty()) {
@@ -172,7 +176,7 @@ public class LoginWindow extends JFrame{
 	    		else if (i > 50 && i < 80)
 	    			process.setString("You Are Reaching Half...");
 	    		else if (i > 80)
-	    			process.setString("You Are Almost There...");
+	    			process.setString("You Almost There...");
 	    		else
 	    			process.setString("Start Loading");
 
@@ -181,7 +185,7 @@ public class LoginWindow extends JFrame{
 	    		//delay time 
 	    		Thread.sleep(200);
 	                
-	    		// Each time around plus 20
+	    		// Each time around plus 2
 	    		i += 2; 
 	    	}
 	            
@@ -194,7 +198,7 @@ public class LoginWindow extends JFrame{
 	}
 	
 	public void cancelButton() {
-		cancelB.addActionListener(new ActionListener() {
+		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("Cancel")) {
 					cancelOption();

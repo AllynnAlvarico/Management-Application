@@ -3,13 +3,20 @@ package appWindow;
 import record.User;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -21,17 +28,37 @@ import java.util.LinkedList;
 public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//variable for menu
-	private JPanel dialogPane;
 	private JMenu user,view,placeOrder;
-	private JMenuItem signUp, logIn, logOut, quite;
+	private JMenuItem logOut, quite;
 	private JMenuBar menuBar;
+	
+	//variable for account details 
+	private JLabel txtAccountID, txtCustomerID, txtBalance, txtAccountType, txtCurrency, txtStatus;
+	private JFormattedTextField fldAccountID, fldCustomerID, fldBalance, fldAccType, fldCurrency, fldStatus;
+	
+	//variable for main UI 
+	private JPanel pnlTop, pnlBottom;
+	private JPanel pnlPurchaseList, pnlAccountDetail;
+	private JPanel pnlMainTop, pnlMainCentral,pnlMainBottom;
+	private JLabel txtAccountName;
+	private JTabbedPane tbpPurchaseList;
+	private Date date;
+	
+	//variable for inventory purchase function
+	private JPanel topInventoryPanel, centralInventoryPanel, bottomInventoryPanel;
+	private JTextField fldSearch, fldQuantity;
+	private JLabel txtSearchProduct, txtQuantity;
+	private JButton btnSearch, btnPurcase;
+	private JTable table;
+	private JScrollPane scrollTable;
+	private DefaultTableModel tableModel;
+	private String[] head = {"Product ID","Product Name","Product Type","Price","Quantity"};
 	
 	private LinkedList<User> list;
 	private User u;
 	
 	//set the width and height
-	private final int WIDTH = 600, HEIGHT = 400;
-	private int attempt;
+	private final int WIDTH = 1000, HEIGHT = 500;
 	
 	public ApplicationWindow() {
 		super("Management Application");
@@ -39,9 +66,11 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		list = new LinkedList<>();
 		
 		menu();
+		mainUI();
 		
 		this.setSize(WIDTH,HEIGHT);
-		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		//this.setResizable(false);
 	}
 	
 	public void menu() {
@@ -57,10 +86,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		
 		placeOrder = new JMenu("Order");
 		
-		//disable the view menu until user login
-		view.setEnabled(false);
-		placeOrder.setEnabled(false);
-		
 		//set the short cut for the function
 		logOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,Event.CTRL_MASK));
 		quite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,Event.CTRL_MASK));
@@ -68,7 +93,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//adding to the user menu
 		user.add(logOut);
 		user.add(quite);
-		
 		
 		//adding action to the menu
 		logOut.addActionListener(this);
@@ -82,6 +106,112 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//adding it to the frame
 		this.setJMenuBar(menuBar);
 	}
+	
+	public void mainUI() {
+		//defining the reference variable
+		pnlTop = new JPanel();
+		pnlMainTop = new JPanel();
+		pnlMainCentral = new JPanel();
+		pnlMainBottom = new JPanel();
+		txtAccountName = new JLabel("Hi Anson, it's good to see you back!");
+		txtAccountID = new JLabel("Account ID:");
+		fldAccountID = new JFormattedTextField("D22124534");
+		txtBalance = new JLabel("Current Balance: ");
+		fldBalance = new JFormattedTextField("1000.00");
+		
+		//change font and color
+		txtAccountName.setFont(new Font("Arial",Font.BOLD,16));
+		
+		//add to the panel
+		pnlMainTop.add(txtAccountName);
+		pnlMainCentral.add(txtAccountID);
+		pnlMainCentral.add(fldAccountID);
+		pnlMainBottom.add(txtBalance);
+		pnlMainBottom.add(fldBalance);
+		
+		//set the text field not editable
+		fldAccountID.setEditable(false);
+		fldBalance.setEditable(false);
+		
+		//set the layout
+		pnlTop.setLayout(new GridLayout(3,0));
+		pnlMainTop.setLayout(new GridLayout(0,1));
+		pnlMainCentral.setLayout(new GridLayout(0,6));
+		pnlMainBottom.setLayout(new GridLayout(0,6));
+		
+		//set the size of the text field
+		fldAccountID.setPreferredSize(new Dimension(200,25));
+		fldBalance.setPreferredSize(new Dimension(200,25));
+		
+		//add to other panel with position
+		pnlTop.add(pnlMainTop);
+		pnlTop.add(pnlMainCentral);
+		pnlTop.add(pnlMainCentral);
+		pnlTop.add(pnlMainBottom);
+		pnlTop.add(pnlMainBottom);
+		
+		//add to the main frame
+		this.add(pnlTop, BorderLayout.NORTH);
+		
+		tabbedPane();
+	}
+	
+	//
+	public void tabbedPane() {
+		//defining 
+		pnlBottom = new JPanel();
+		pnlPurchaseList = new JPanel();
+		pnlAccountDetail = new JPanel();
+		tbpPurchaseList = new JTabbedPane();
+		
+		productTable();
+				
+		//add to the panel
+		tbpPurchaseList.add(pnlPurchaseList, "Inventory");
+		tbpPurchaseList.add(pnlAccountDetail, "Account");
+		pnlBottom.add(tbpPurchaseList);
+		pnlBottom.setLayout(new GridLayout(1,0));
+		this.add(pnlBottom, BorderLayout.CENTER);
+	}
+	
+	//
+	public void productTable() {
+		pnlPurchaseList = new JPanel();
+		topInventoryPanel = new JPanel();
+		centralInventoryPanel = new JPanel(new BorderLayout());
+		bottomInventoryPanel = new JPanel();
+		txtSearchProduct = new JLabel("Search Product:");
+		fldSearch = new JTextField(10);
+		btnSearch = new JButton("Search");
+		txtQuantity = new JLabel("Quantity: ");
+		fldQuantity = new JTextField(10);
+		btnPurcase = new JButton("Purchase");
+		
+		//set the pnlPurchaseList a border layout
+		pnlPurchaseList.setLayout(new BorderLayout());
+		
+		//top panel
+		topInventoryPanel.add(txtSearchProduct);
+		topInventoryPanel.add(fldSearch);
+		topInventoryPanel.add(btnSearch);
+		pnlPurchaseList.add(topInventoryPanel, BorderLayout.NORTH);
+		
+		//center panel
+		tableModel = new DefaultTableModel(head,0);
+		table = new JTable(tableModel);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setAutoCreateRowSorter(true);
+		scrollTable = new JScrollPane(table);
+		centralInventoryPanel.add(scrollTable);
+		pnlPurchaseList.add(centralInventoryPanel, BorderLayout.CENTER);
+		
+		//bottom panel 
+		bottomInventoryPanel.add(txtQuantity);
+		bottomInventoryPanel.add(fldQuantity);
+		bottomInventoryPanel.add(btnPurcase);
+		pnlPurchaseList.add(bottomInventoryPanel, BorderLayout.SOUTH);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -93,118 +223,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		}
 	}
 	
-	//method for register an account
-	/**
-	public void signUp() {
-		dialogPane = new JPanel();
-		username = new JTextField(15);
-		password = new JPasswordField(15);
-		
-		dialogPane.add(new JLabel("Username: "));
-		dialogPane.add(username);
-		dialogPane.add(new JLabel("Password: "));
-		dialogPane.add(password);
-		dialogPane.setLayout(new GridLayout(2,2));
-		
-		//add the dialog panel for dialog
-		int result = JOptionPane.showConfirmDialog(this,dialogPane,"User registration:",JOptionPane.OK_CANCEL_OPTION);
-		
-		//once user click on OK option
-		if (result == JOptionPane.OK_OPTION) {
-			
-		    //defining the variable 
-			String name = username.getText();
-			String pass = String.valueOf(password.getPassword());
-			
-			//check is the list empty
-			if (list.isEmpty()) {
-				try {
-					
-					//adding account
-					u = new User(name,pass);
-					list.add(u);
-					JOptionPane.showMessageDialog(null, "You have register successfully!","Info",JOptionPane.INFORMATION_MESSAGE);
-					//welcomeMassage = new JLabel( username.getText() + ", Welcome back!");
-				} catch (NullPointerException n) {
-					n.printStackTrace();
-				}
-			} else {
-				
-				//if is incorrect, warning message pop up
-				if (name.equalsIgnoreCase(u.getUserName()) && pass.equals(u.getUserPassword())) {
-					JOptionPane.showMessageDialog(null, "The username or password already exits!","Warning",JOptionPane.WARNING_MESSAGE);
-				} else {
-					
-					//adding account
-					u = new User(name,pass);
-					list.add(u);
-					JOptionPane.showMessageDialog(null, "You have register successfully!","Info",JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		}
-	}
-	**/
-	
-	//method for log in function
-	/**
-	public void logIn() {
-		User user = null;
-		dialogPanel2 = new JPanel();
-		usernameL = new JTextField(15);
-		passwordL = new JPasswordField(15);
-			
-		dialogPanel2.add(new JLabel("Username: "));
-		dialogPanel2.add(usernameL);
-		dialogPanel2.add(new JLabel("Password: "));
-		dialogPanel2.add(passwordL);
-		dialogPanel2.setLayout(new GridLayout(2,2));
-			
-		int result = JOptionPane.showConfirmDialog(this,dialogPanel2,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
-			
-		if (result == JOptionPane.OK_OPTION) {
-				
-			String name = usernameL.getText();
-			String pass = String.valueOf(passwordL.getPassword());
-				
-			//
-			 * Within the login function, it will check first if the list are empty then display message "not yet register"
-			 * If the list is not empty, it will check is user is exits, if it no exists, display message
-			 * else if the user is exists, it will check if the user has login, 
-			 * attempt < 1 mean did not login then process to login, else mean it already login display error message
-			 //
-			
-			if(list.isEmpty()) {
-				try {
-					JOptionPane.showMessageDialog(null, "No Account Register yet! Please Register First!","Warning",JOptionPane.WARNING_MESSAGE);
-				} catch (NullPointerException n) {
-					n.printStackTrace();
-				}
-			} else {
-				user = searchUser(name,pass);
-				if (user == null) {
-					JOptionPane.showMessageDialog(null, name + " are not exists in the system","Not Found!",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					if (attempt < 1) {
-						if (name.equalsIgnoreCase(user.getUserName()) && pass.equals(user.getUserPassword())) {
-							
-								JOptionPane.showMessageDialog(null, user.getUserName() + ", Log In Successfully!","Success!",JOptionPane.INFORMATION_MESSAGE);
-								view.setEnabled(true);
-								placeOrder.setEnabled(true);
-								attempt++;
-								//welcomeMassage.setText(u.getUserName() + ", Welcome Bank!");
-							
-						} else {
-							JOptionPane.showMessageDialog(null, "The username or password Incorrect! Try Again!","Warning",JOptionPane.WARNING_MESSAGE);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "You have log in an account","Warning",JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-			}
-		}
-	}**/
-	
-	//search function for log in
+	//search for the user
 	public User searchUser(String name, String pass) {
 		User user = null;
 		for (User each: list) {
@@ -229,13 +248,13 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel ask = new JPanel();
 		ask.add(new JLabel("Do you sure you wish to log out?"));	
 		
-		if (attempt < 1) {
+		if (u.getAttempt() < 1) {
 			JOptionPane.showMessageDialog(null, "You haven't log in yet, please log in first!","Info", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			int result = JOptionPane.showConfirmDialog(this,ask,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
 			
 		 	if (result == JOptionPane.OK_OPTION) {
-		 		attempt--;
+		 		u.setAttempt(0);
 		 		view.setEnabled(false);
 		 		placeOrder.setEnabled(false);
 		 		JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
