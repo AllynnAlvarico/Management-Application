@@ -8,20 +8,19 @@ import javax.swing.SwingUtilities;
 import administrative.ManagementSystem;
 import appWindow.*;
 
-public class Main implements ActionListener{
+public class Main{
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	static ManagementSystem sharedSystem;
+	
 	public Main() {
+		
 		sharedSystem = new ManagementSystem();
+		
+		System.out.println("Address of SharedList");
 	}
 	
 	    public static void main(String[] args) {
-	    	
+	    	new Main();
 	    	SwingUtilities.invokeLater(() -> {
 	    	    RegisterWindow ui = new RegisterWindow(sharedSystem);
 	    	    ui.setVisible(true);

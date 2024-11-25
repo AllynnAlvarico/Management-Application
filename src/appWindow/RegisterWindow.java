@@ -26,14 +26,15 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	private final int WIDTH = 450, HEIGHT = 150;
 	private final int x = 750, y = 400;
 	
-	public RegisterWindow(ManagementSystem managementSystem) {
+	public RegisterWindow(ManagementSystem ms) {
 		super("Register Window");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		this.shareList = shareList;
 		System.out.println("Line 33 RWindow class");
-		this.managementSystem = managementSystem;
+		this.managementSystem = ms;
 		
-		
+		System.out.print("Address Line 36 " + this.managementSystem);
+		System.out.print("Address Line 37 " + ms);
 		
 		RegisterPanel();
 		
@@ -80,6 +81,9 @@ public class RegisterWindow extends JFrame implements ActionListener{
 			String pass = String.valueOf(fldPassword.getPassword());
 			User user = null;
 			//boolean isExits = true;
+//			System.out.print("Line 83 RW List Size " + managementSystem.getListUsers().size());
+			managementSystem.getListUsers().add(new User("allynn", "12345"));
+			
 			
 			
 			if (managementSystem.getListUsers().isEmpty()) {
