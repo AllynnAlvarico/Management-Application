@@ -34,7 +34,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//variable for account details 
 	private JLabel txtAccountID, txtCustomerID, txtBalance, txtAccountType, txtCurrency, txtStatus;
-	private JFormattedTextField fldAccountID, fldCustomerID, fldBalance, fldAccType, fldCurrency, fldStatus;
+	private JFormattedTextField fldAccountID, fldCustomerID, fldBalance, fldAccountType, fldCurrency, fldStatus;
 	
 	//variable for main UI 
 	private JPanel pnlTop, pnlBottom;
@@ -42,17 +42,21 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JPanel pnlMainTop, pnlMainCentral,pnlMainBottom;
 	private JLabel txtAccountName;
 	private JTabbedPane tbpPurchaseList;
+	private JButton btnLogOut;
 	private Date date;
 	
 	//variable for inventory purchase function
 	private JPanel topInventoryPanel, centralInventoryPanel, bottomInventoryPanel;
-	private JTextField fldSearch, fldQuantity;
-	private JLabel txtSearchProduct, txtQuantity;
+	private JTextField fldSearch, fldSearchproductID, fldQuantity;
+	private JLabel txtSearchProduct, txtSearchproductID, txtQuantity;
 	private JButton btnSearch, btnPurcase;
 	private JTable table;
 	private JScrollPane scrollTable;
 	private DefaultTableModel tableModel;
 	private String[] head = {"Product ID","Product Name","Product Type","Price","Quantity"};
+	
+	//variable for account details table
+	private JPanel pnlAccount;
 	
 	private LinkedList<User> list;
 	private User u;
@@ -118,26 +122,31 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		fldAccountID = new JFormattedTextField("D22124534");
 		txtBalance = new JLabel("Current Balance: ");
 		fldBalance = new JFormattedTextField("1000.00");
+		btnLogOut = new JButton("Log Out");
 		
 		//change font and color
 		txtAccountName.setFont(new Font("Arial",Font.BOLD,16));
 		
+		//set the layout
+		pnlTop.setLayout(new GridLayout(4,0));
+		pnlMainTop.setLayout(new BorderLayout());
+		pnlMainCentral.setLayout(new GridLayout(0,6));
+		pnlMainBottom.setLayout(new GridLayout(0,6));
+		
 		//add to the panel
-		pnlMainTop.add(txtAccountName);
+		pnlMainTop.add(txtAccountName, BorderLayout.WEST);
+		pnlMainTop.add(btnLogOut, BorderLayout.EAST);
 		pnlMainCentral.add(txtAccountID);
 		pnlMainCentral.add(fldAccountID);
 		pnlMainBottom.add(txtBalance);
 		pnlMainBottom.add(fldBalance);
 		
+		//adding action to the log out button
+		btnLogOut.addActionListener(this);
+		
 		//set the text field not editable
 		fldAccountID.setEditable(false);
 		fldBalance.setEditable(false);
-		
-		//set the layout
-		pnlTop.setLayout(new GridLayout(3,0));
-		pnlMainTop.setLayout(new GridLayout(0,1));
-		pnlMainCentral.setLayout(new GridLayout(0,6));
-		pnlMainBottom.setLayout(new GridLayout(0,6));
 		
 		//set the size of the text field
 		fldAccountID.setPreferredSize(new Dimension(200,25));
@@ -153,6 +162,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//add to the main frame
 		this.add(pnlTop, BorderLayout.NORTH);
 		
+		//calling method for tabbed panel
 		tabbedPane();
 	}
 	
@@ -164,24 +174,28 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlAccountDetail = new JPanel();
 		tbpPurchaseList = new JTabbedPane();
 		
+		//calling method
 		productTable();
+		accountTable();
 				
 		//add to the panel
-		tbpPurchaseList.add(pnlPurchaseList, "Inventory");
 		tbpPurchaseList.add(pnlAccountDetail, "Account");
+		tbpPurchaseList.add(pnlPurchaseList, "Product");
 		pnlBottom.add(tbpPurchaseList);
 		pnlBottom.setLayout(new GridLayout(1,0));
 		this.add(pnlBottom, BorderLayout.CENTER);
 	}
 	
-	//
+	//method for the user to purchase the product
 	public void productTable() {
 		pnlPurchaseList = new JPanel();
 		topInventoryPanel = new JPanel();
 		centralInventoryPanel = new JPanel(new BorderLayout());
 		bottomInventoryPanel = new JPanel();
-		txtSearchProduct = new JLabel("Search Product:");
+		txtSearchProduct = new JLabel("Product Name:");
 		fldSearch = new JTextField(10);
+		txtSearchproductID = new JLabel("Product ID");
+		fldSearchproductID = new JTextField(10);
 		btnSearch = new JButton("Search");
 		txtQuantity = new JLabel("Quantity: ");
 		fldQuantity = new JTextField(10);
@@ -193,6 +207,8 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//top panel
 		topInventoryPanel.add(txtSearchProduct);
 		topInventoryPanel.add(fldSearch);
+		topInventoryPanel.add(txtSearchproductID);
+		topInventoryPanel.add(fldSearchproductID);
 		topInventoryPanel.add(btnSearch);
 		pnlPurchaseList.add(topInventoryPanel, BorderLayout.NORTH);
 		
@@ -211,6 +227,63 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		bottomInventoryPanel.add(fldQuantity);
 		bottomInventoryPanel.add(btnPurcase);
 		pnlPurchaseList.add(bottomInventoryPanel, BorderLayout.SOUTH);
+	}
+	
+	//method that display all the detail of the account
+	public void accountTable() {
+		pnlAccountDetail = new JPanel();
+		pnlAccount = new JPanel();
+		txtAccountID = new JLabel("Account ID ");
+		fldAccountID = new JFormattedTextField("D22124534");
+		txtCustomerID = new JLabel("Customer ID  ");
+		fldCustomerID = new JFormattedTextField("D22124456");
+		txtBalance = new JLabel("Current Balance  ");
+		fldBalance = new JFormattedTextField("1000.00");
+		txtCurrency = new JLabel("Currency  ");
+		fldCurrency = new JFormattedTextField("EUR");
+		txtAccountType = new JLabel("Account Type  ");
+		fldAccountType = new JFormattedTextField("Advance");
+		txtStatus = new JLabel("Status  ");
+		fldStatus = new JFormattedTextField("Active");
+		
+		//set it to grid layout
+		pnlAccount.setLayout(new GridLayout(6,2));
+		
+		//set the text field not editable
+		fldAccountID.setEditable(false);
+		fldCustomerID.setEditable(false);
+		fldBalance.setEditable(false);
+		fldCurrency.setEditable(false);
+		fldAccountType.setEditable(false);
+		fldStatus.setEditable(false);
+		
+		//set the preferred size of text field
+		fldAccountID.setPreferredSize(new Dimension(250,50));
+		fldCustomerID.setPreferredSize(new Dimension(250,50));
+		fldBalance.setPreferredSize(new Dimension(250,50));
+		fldCurrency.setPreferredSize(new Dimension(250,50));
+		fldAccountType.setPreferredSize(new Dimension(250,50));
+		fldStatus.setPreferredSize(new Dimension(250,50));
+		
+		//set the status to green if is active
+		fldStatus.setForeground(Color.GREEN);
+
+		//add to the pnlAccount
+		pnlAccount.add(txtAccountID);
+		pnlAccount.add(fldAccountID);
+		pnlAccount.add(txtCustomerID);
+		pnlAccount.add(fldCustomerID);
+		pnlAccount.add(txtBalance);
+		pnlAccount.add(fldBalance);
+		pnlAccount.add(txtCurrency);
+		pnlAccount.add(fldCurrency);
+		pnlAccount.add(txtAccountType);
+		pnlAccount.add(fldAccountType);
+		pnlAccount.add(txtStatus);
+		pnlAccount.add(fldStatus);
+		
+		//add to the pnlAccountDetail panel
+		pnlAccountDetail.add(pnlAccount, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -245,20 +318,15 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	 *  - Error message display 
 	 */
 	public void logOut() {
-		JPanel ask = new JPanel();
-		ask.add(new JLabel("Do you sure you wish to log out?"));	
+		JPanel pnlAsk = new JPanel();
+		pnlAsk.add(new JLabel("Do you sure you wish to log out?"));	
 		
-		if (u.getAttempt() < 1) {
-			JOptionPane.showMessageDialog(null, "You haven't log in yet, please log in first!","Info", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			int result = JOptionPane.showConfirmDialog(this,ask,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(this,pnlAsk,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
 			
-		 	if (result == JOptionPane.OK_OPTION) {
-		 		u.setAttempt(0);
-		 		view.setEnabled(false);
-		 		placeOrder.setEnabled(false);
-		 		JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
-			}
+		 if (result == JOptionPane.OK_OPTION) {
+		 	view.setEnabled(false);
+		 	placeOrder.setEnabled(false);
+		 	JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
