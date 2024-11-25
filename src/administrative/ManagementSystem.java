@@ -64,6 +64,11 @@ public class ManagementSystem {
 		return null;
 	}
 	
+	public LinkedList<User> getListUsers(){
+		System.out.println("Line 68Users Lists number: " + users.size());
+		return this.users;
+	}
+	
 }
 
 /*

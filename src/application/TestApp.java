@@ -1,6 +1,9 @@
 package application;
 
+import javax.swing.SwingUtilities;
+
 import administrative.ManagementSystem;
+import appWindow.ApplicationWindow;
 import record.User;
 
 public class TestApp {
@@ -24,10 +27,18 @@ public class TestApp {
 		
 	}
 	
-
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new TestApp();
+		//LinkedList<User> sharedUserList = new LinkedList<>();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				
+			public void run() {
+				// TODO Auto-generated method stub
+				//new LoginWindow(sharedUserList).setVisible(true);
+				new ApplicationWindow().setVisible(true);
+			}
+			
+		});
 	}
-
 }

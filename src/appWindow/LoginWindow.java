@@ -27,15 +27,17 @@ public class LoginWindow extends JFrame{
 	static JProgressBar process;
 	
 	//reference variable 
-	//ManagementSystem manageSystem = new ManagementSystem();
-	LinkedList<User> shareList;
+	ManagementSystem managementSystem;
+//	LinkedList<User> shareList;
 	
 	private final int WIDTH = 450, HEIGHT = 150;
 	
-	public LoginWindow(LinkedList<User> shareList) {
+//	public LoginWindow(LinkedList<User> shareList)
+	public LoginWindow(ManagementSystem managementSystem){
 		super("Login Window");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.shareList = shareList;
+		this.managementSystem = managementSystem;
+//		this.shareList = shareList;
 		
 		loginPanel();
 		
@@ -83,9 +85,9 @@ public class LoginWindow extends JFrame{
 					
 					String name = fldUsername.getText();
 					String pass = String.valueOf(fldPassword.getPassword());
-					
+					System.out.println(managementSystem.getListUsers().size());
 					try {
-						if (shareList.isEmpty()) {
+						if (managementSystem.getListUsers().isEmpty()) {
 							JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
 							registerWindow();
 						} else {
@@ -116,7 +118,7 @@ public class LoginWindow extends JFrame{
 	
 	public User searchUser(String name, String pass) {
 		User user = null;
-		for (User each: shareList) {
+		for (User each: managementSystem.getListUsers()) {
 			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
 				user = each;
 				return user;
@@ -126,7 +128,7 @@ public class LoginWindow extends JFrame{
 	}
 	
 	public void registerWindow() {
-		RegisterWindow register = new RegisterWindow(shareList);
+		RegisterWindow register = new RegisterWindow(managementSystem);
 		register.setLocationRelativeTo(null);
 		register.setVisible(true);
 		LoginWindow.this.dispose();
