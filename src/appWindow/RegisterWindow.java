@@ -12,11 +12,11 @@ import administrative.ManagementSystem;
 
 public class RegisterWindow extends JFrame implements ActionListener{
 	
-	private JPanel tPanel, cPanel, bPanel;
-	private JLabel message;
-	private JTextField username;
-	private JPasswordField password;
-	private JButton registerB, cancelB;
+	private JPanel pnlTop, pnlCentral, pnlBottom;
+	private JLabel txtLoginMessage;
+	private JTextField fldUsername;
+	private JPasswordField fldPassword;
+	private JButton btnLogin, btnCancel;
 	
 	//reference variable 
 	//ManagementSystem manageSystem = new ManagementSystem();
@@ -35,42 +35,42 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	}
 	
 	public void RegisterPanel() {
-		tPanel = new JPanel();
-		cPanel = new JPanel();
-		bPanel = new JPanel();
-		message = new JLabel("Register Here");
-		username = new JTextField(10);
-		password = new JPasswordField(10);
-		registerB = new JButton("Register");
-		cancelB = new JButton("Cancel");
+		pnlTop = new JPanel();
+		pnlCentral = new JPanel();
+		pnlBottom = new JPanel();
+		txtLoginMessage = new JLabel("Register Here");
+		fldUsername = new JTextField(10);
+		fldPassword = new JPasswordField(10);
+		btnLogin = new JButton("Register");
+		btnCancel = new JButton("Cancel");
 		
-		registerB.addActionListener(this);
-		cancelB.addActionListener(this);
+		btnLogin.addActionListener(this);
+		btnCancel.addActionListener(this);
 		
-		tPanel.add(message);
-		cPanel.add(new JLabel("Username: "));
-		cPanel.add(username);
-		cPanel.add(new JLabel("Password: "));
-		cPanel.add(password);
-		bPanel.add(registerB);
-		bPanel.add(cancelB);
+		pnlTop.add(txtLoginMessage);
+		pnlCentral.add(new JLabel("Username: "));
+		pnlCentral.add(fldUsername);
+		pnlCentral.add(new JLabel("Password: "));
+		pnlCentral.add(fldPassword);
+		pnlBottom.add(btnLogin);
+		pnlBottom.add(btnCancel);
 		
-		message.setFont(new Font("Arial",Font.BOLD,20));
-		cPanel.setLayout(new GridLayout(2,2));
+		txtLoginMessage.setFont(new Font("Arial",Font.BOLD,20));
+		pnlCentral.setLayout(new GridLayout(2,2));
 		
-		this.add(tPanel, BorderLayout.NORTH);
-		this.add(cPanel, BorderLayout.CENTER);
-		this.add(bPanel, BorderLayout.SOUTH);
+		this.add(pnlTop, BorderLayout.NORTH);
+		this.add(pnlCentral, BorderLayout.CENTER);
+		this.add(pnlBottom, BorderLayout.SOUTH);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("Register")) {
-			String name = username.getText();
-			String pass = String.valueOf(password.getPassword());
+			String name = fldUsername.getText();
+			String pass = String.valueOf(fldPassword.getPassword());
 			User user = null;
-			boolean isExits = true;
+			//boolean isExits = true;
 			
 			
 			if (shareList.isEmpty()) {
@@ -108,6 +108,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 		}
 	}
 	
+	//search for the user
 	public User searchUser(String name, String pass) {
 		User user = null;
 		for (User each: shareList) {
