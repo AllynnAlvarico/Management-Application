@@ -3,19 +3,31 @@ package application;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class Main implements ActionListener {
+import javax.swing.SwingUtilities;
+
+import administrative.ManagementSystem;
+import appWindow.*;
+
+public class Main{
 	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	static ManagementSystem sharedSystem;
+	
+	public Main() {
 		
+		sharedSystem = new ManagementSystem();
+		
+		System.out.println("Address of SharedList");
 	}
+	
+	    public static void main(String[] args) {
+	    	new Main();
+	    	SwingUtilities.invokeLater(() -> {
+	    	    RegisterWindow ui = new RegisterWindow(sharedSystem);
+	    	    ui.setVisible(true);
+	    	});
+	    }
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+		
 	
 
 }

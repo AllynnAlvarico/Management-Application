@@ -1,8 +1,10 @@
 package appWindow;
 import record.User;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -19,16 +21,24 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	private JButton btnLogin, btnCancel;
 	
 	//reference variable 
-	//ManagementSystem manageSystem = new ManagementSystem();
-	LinkedList<User> shareList;
+	ManagementSystem managementSystem;
+//	LinkedList<User> shareList;
 	private final int WIDTH = 450, HEIGHT = 150;
+	private final int x = 750, y = 400;
 	
-	public RegisterWindow(LinkedList<User> shareList) {
+	public RegisterWindow(ManagementSystem ms) {
 		super("Register Window");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.shareList = shareList;
+//		this.shareList = shareList;
+		System.out.println("Line 33 RWindow class");
+		this.managementSystem = ms;
+		
+		System.out.print("Address Line 36 " + this.managementSystem);
+		System.out.print("Address Line 37 " + ms);
 		
 		RegisterPanel();
+		
+		this.setLocation(x, y);
 		
 		this.setSize(WIDTH,HEIGHT);
 		this.setResizable(false);
@@ -71,14 +81,18 @@ public class RegisterWindow extends JFrame implements ActionListener{
 			String pass = String.valueOf(fldPassword.getPassword());
 			User user = null;
 			//boolean isExits = true;
+//			System.out.print("Line 83 RW List Size " + managementSystem.getListUsers().size());
+			managementSystem.getListUsers().add(new User("allynn", "12345"));
 			
 			
-			if (shareList.isEmpty()) {
+			
+			if (managementSystem.getListUsers().isEmpty()) {
 				user = new User(name,pass);
-				shareList.add(user);
+				managementSystem.getListUsers().add(user);
 				System.out.println("Debug: " + user.getUserName());
+				System.out.println("Number in Lists: " + managementSystem.getListUsers().size());
 				JOptionPane.showMessageDialog(null, "You have register successfully!","Registration",JOptionPane.INFORMATION_MESSAGE);
-				LoginWindow login = new LoginWindow(shareList);
+				LoginWindow login = new LoginWindow(managementSystem);
 				login.setLocationRelativeTo(null);
 				login.setVisible(true);
 				RegisterWindow.this.dispose();
@@ -86,7 +100,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 				user = searchUser(name,pass);
 				if (user == null) {
 					user = new User(name,pass);
-					shareList.add(user);
+					managementSystem.getListUsers().add(user);
 					JOptionPane.showMessageDialog(null, "You have register successfully!","Info",JOptionPane.INFORMATION_MESSAGE);
 					loginWindow();
 				} else {
@@ -96,7 +110,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 							
 						//adding account
 						user = new User(name,pass);
-						shareList.add(user);
+						managementSystem.getListUsers().add(user);
 						JOptionPane.showMessageDialog(null, "You have register successfully!","Info",JOptionPane.INFORMATION_MESSAGE);
 						loginWindow();
 					}
@@ -111,7 +125,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	//search for the user
 	public User searchUser(String name, String pass) {
 		User user = null;
-		for (User each: shareList) {
+		for (User each: managementSystem.getListUsers()) {
 			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
 				user = each;
 				return user;
@@ -121,7 +135,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	}
 	
 	public void loginWindow() {
-		LoginWindow login = new LoginWindow(shareList);
+		LoginWindow login = new LoginWindow(managementSystem);
 		login.setLocationRelativeTo(null);
 		login.setVisible(true);
 		RegisterWindow.this.dispose();
