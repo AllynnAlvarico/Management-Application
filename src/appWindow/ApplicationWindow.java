@@ -29,7 +29,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//variable for menu
 	private JMenu user,view,placeOrder;
-	private JMenuItem logOut, quite;
+	private JMenuItem logOut, quit;
 	private JMenuBar menuBar;
 	
 	//variable for account details 
@@ -69,7 +69,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		list = new LinkedList<>();
 		
-		menu();
+		setMenu();
 		mainUI();
 		
 		this.setSize(WIDTH,HEIGHT);
@@ -77,14 +77,14 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//this.setResizable(false);
 	}
 	
-	public void menu() {
+	public void setMenu() {
 		menuBar = new JMenuBar();
 		
 		//defining the object
 		user = new JMenu("User");
 		logOut = new JMenuItem("Log Out");
 		user.addSeparator(); //adding line between
-		quite = new JMenuItem("Quite");
+		quit = new JMenuItem("Quit");
 		
 		view = new JMenu("Review");
 		
@@ -92,15 +92,15 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		
 		//set the short cut for the function
 		logOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,Event.CTRL_MASK));
-		quite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,Event.CTRL_MASK));
+		quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,Event.CTRL_MASK));
 		
 		//adding to the user menu
 		user.add(logOut);
-		user.add(quite);
+		user.add(quit);
 		
 		//adding action to the menu
 		logOut.addActionListener(this);
-		quite.addActionListener(this);
+		quit.addActionListener(this);
 		
 		//adding to the menu bar object
 		menuBar.add(user);
@@ -332,7 +332,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	/*
 	 * Created class on 22/11/2024 by Anson.
-	 * 		Anson: I create a class for GUI that are able to register, login, lot out, and quite the program
+	 * 		Anson: I create a class for GUI that are able to register, login, lot out, and quit the program
 	 * 			   Also, I add a short cut for the user to using those action and you can see it on the menu bar
 	 * 			   So the register are using the linkedlistt to store the username and password 
 	 * 			   Once the user register successfully, then the user can log in to the account 
