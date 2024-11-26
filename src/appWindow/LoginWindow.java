@@ -86,8 +86,8 @@ public class LoginWindow extends JFrame implements ActionListener{
 			boolean isFound = managementSystem.isUserNameExists(username);
 			User user = managementSystem.getUser(username, userpassword);
 			
-			System.out.println("Is the User Found? " + isFound);
-			System.out.println("Is User Exists? " + user.getUserName());
+//			System.out.println("Is the User Found? " + isFound);
+//			System.out.println("Is User Exists? " + user.getUserName());
 			
 			if(isFound && user != null) {
 				JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);

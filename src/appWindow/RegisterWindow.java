@@ -30,6 +30,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnRegister) register();
+		else if (e.getSource() == btnCancel) System.exit(0);
 			
 	}
 	
@@ -79,21 +80,23 @@ public class RegisterWindow extends JFrame implements ActionListener{
 		String username = fldUsername.getText();
 		String userpassword = String.valueOf(fldPassword.getPassword());
 		
-		
-		
-		if (managementSystem.getListUsers().isEmpty()) {
-			if(!username.isEmpty() || !username.isBlank()){
-				managementSystem.getListUsers().add(new User(username, userpassword));
-				msgDialog("You have register successfully!", "Info");
-			}
-			 msgDialog("Hey!", "Warning");
-			
-		} else {
+		if((username.isEmpty() || username.isBlank()) && (userpassword.isBlank() || userpassword.isEmpty())) {
+			msgDialog("Must fill the Requirements", "Warning");
+		}else if(managementSystem.getListUsers().isEmpty()) {
+			managementSystem.getListUsers().add(new User(username, userpassword));
+			msgDialog("You have register successfully!", "Info");
+			loginWindow();
+		}else {
 			User inputUser = managementSystem.getUser(username, userpassword);
-			if (username.equals(inputUser.getUserName())) {
+			if (!username.equals(inputUser.getUserName())) {
+				managementSystem.getListUsers().add(inputUser);
+				loginWindow();
+			}else {
 				msgDialog("The username already exits!", "Warning");
 			}
 		}
+		fldUsername.setText("");
+		fldPassword.setText("");
 	}
 
 	public void msgDialog(String message, String type) {
