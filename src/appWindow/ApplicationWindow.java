@@ -58,17 +58,17 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 //	private LinkedList<User> list;
 	private ManagementSystem managementSys;
-	private User u;
+	private User authorisedUser;
 	
 	//set the width and height
 	private final int WIDTH = 1000, HEIGHT = 500;
 	
-	public ApplicationWindow(ManagementSystem ms) {
+	public ApplicationWindow(ManagementSystem ms, User passedDataUser) {
 		super("Management Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		list = new LinkedList<>();
 		this.managementSys = ms;
-		
+		this.authorisedUser = passedDataUser;
 		setMenu();
 		mainUI();
 		
@@ -112,16 +112,22 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	public void mainUI() {
+		String accountName = authorisedUser.getUserName();
+		String accountId = authorisedUser.getID();
+		Double accountBalance = authorisedUser.getAccount().getBalance();
+		
+		
+		
 		//defining the reference variable
 		pnlTop = new JPanel();
 		pnlMainTop = new JPanel();
 		pnlMainCentral = new JPanel();
 		pnlMainBottom = new JPanel();
-		txtAccountName = new JLabel("Hi Anson, it's good to see you back!");
+		txtAccountName = new JLabel("Hi " + accountName + ", it's good to see you back!");
 		txtAccountID = new JLabel("Account ID:");
-		fldAccountID = new JFormattedTextField("D22124534");
+		fldAccountID = new JFormattedTextField(accountId);
 		txtBalance = new JLabel("Current Balance: ");
-		fldBalance = new JFormattedTextField("1000.00");
+		fldBalance = new JFormattedTextField(accountBalance);
 		
 		//change font and color
 		txtAccountName.setFont(new Font("Arial",Font.BOLD,16));
@@ -226,19 +232,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 			System.exit(0);
 		}
 	}
-	
-	//search for the user
-	public User searchUser(String name, String pass) {
-		User user = null;
-		for (User each: managementSys.getListUsers()) {
-			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
-				user = each;
-				return user;
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * This method is for log out function 
 	 * so first if the user haven't log out the account then it will ask user "do you wish to log out"
@@ -252,13 +245,13 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel ask = new JPanel();
 		ask.add(new JLabel("Do you sure you wish to log out?"));	
 		
-		if (u.getAttempt() < 1) {
+		if (authorisedUser.getAttempt() < 1) {
 			JOptionPane.showMessageDialog(null, "You haven't log in yet, please log in first!","Info", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			int result = JOptionPane.showConfirmDialog(this,ask,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
 			
 		 	if (result == JOptionPane.OK_OPTION) {
-		 		u.setAttempt(0);
+		 		authorisedUser.setAttempt(0);
 		 		view.setEnabled(false);
 		 		placeOrder.setEnabled(false);
 		 		JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);

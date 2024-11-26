@@ -83,7 +83,7 @@ public class RegisterWindow extends JFrame implements ActionListener{
 		if((username.isEmpty() || username.isBlank()) && (userpassword.isBlank() || userpassword.isEmpty())) {
 			msgDialog("Must fill the Requirements", "Warning");
 		}else if(managementSystem.getListUsers().isEmpty()) {
-			managementSystem.getListUsers().add(new User(username, userpassword));
+			managementSystem.addUser(username, userpassword);
 			msgDialog("You have register successfully!", "Info");
 			loginWindow();
 		}else {

@@ -18,7 +18,7 @@ public class Account {
 		this.customerID = cusId;
 		this.accountType = type;
 		
-		this.balance = 0.0;
+		this.balance = 90.0;
 		this.status = true;
 	}
 	
