@@ -8,7 +8,7 @@ import record.User;
 
 public class TestApp {
 	
-	ManagementSystem mgtSystem = new ManagementSystem();
+	static ManagementSystem mgtSystem = new ManagementSystem();
 	boolean isExists;
 	User user;
 	
@@ -18,7 +18,7 @@ public class TestApp {
 		
 		isExists = mgtSystem.isUserNameExists("Allynn");
 		
-		user = mgtSystem.getUser(isExists, "123456");
+//		user = mgtSystem.getUser(isExists, "123456");
 		
 		System.out.println(isExists);
 		System.out.println(user.getUserName());
@@ -36,7 +36,7 @@ public class TestApp {
 			public void run() {
 				// TODO Auto-generated method stub
 				//new LoginWindow(sharedUserList).setVisible(true);
-				new ApplicationWindow().setVisible(true);
+				new ApplicationWindow(mgtSystem).setVisible(true);
 			}
 			
 		});

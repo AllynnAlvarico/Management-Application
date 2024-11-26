@@ -16,7 +16,7 @@ public class Main{
 		
 		sharedSystem = new ManagementSystem();
 		
-		System.out.println("Address of SharedList");
+//		System.out.println("Address of SharedList");
 	}
 	
 	    public static void main(String[] args) {

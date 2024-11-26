@@ -77,7 +77,7 @@ public class User {
 	public Account getAccount(){
 		return this.userAccount;
 	}
-	
+	@Override
 	public boolean equals(Object o){
 		User temp = (User) o;
 		if(this.userPassword.equals(temp.userPassword)) return true;

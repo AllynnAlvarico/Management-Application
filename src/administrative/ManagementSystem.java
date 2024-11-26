@@ -35,15 +35,12 @@ public class ManagementSystem {
 		return false;
 	}
 	
-	public User getUser(boolean isExists, String inputPassword) {
-		if(isExists) {
-			for(User user : users) {
-				if(user.getUserPassword().equals(inputPassword)) {
-					return user;
-				}
+	public User getUser(String username, String inputPassword) {
+		for(User user : users) {
+			if(user.getUserName().equals(username) && user.getUserPassword().equals(inputPassword)) {
+				return user;
 			}
 		}
-		
 		return null;
 	}
 	
@@ -53,19 +50,20 @@ public class ManagementSystem {
 	}
 	
 	// Anson - Commit change on line 51 - 23/11/2024 for create a method to search user name and password
-	public User searchFunction(String name, String pass) {
-		User user = null;
-		for (User u: users) {
-			if (name.equalsIgnoreCase(u.getUserName()) && pass.equals(u.getUserPassword())) {
-				user = u;
-				return user;
-			}
-		}
-		return null;
-	}
+	
+//	public User searchFunction(String name, String pass) {
+//		User user = null;
+//		for (User u: users) {
+//			if (name.equalsIgnoreCase(u.getUserName()) && pass.equals(u.getUserPassword())) {
+//				user = u;
+//				return user;
+//			}
+//		}
+//		return null;
+//	}
 	
 	public LinkedList<User> getListUsers(){
-		System.out.println("Line 68Users Lists number: " + users.size());
+//		System.out.println("Line 68Users Lists number: " + users.size());
 		return this.users;
 	}
 	

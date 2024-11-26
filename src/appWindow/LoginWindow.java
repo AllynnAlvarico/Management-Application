@@ -14,7 +14,7 @@ import java.util.LinkedList;
 
 import javax.swing.*;
 
-public class LoginWindow extends JFrame{
+public class LoginWindow extends JFrame implements ActionListener{
 	
 	private JPanel pnlTop, pnlCentral, pnlBottom;
 	private JLabel txtLoginMessage;
@@ -28,22 +28,22 @@ public class LoginWindow extends JFrame{
 	
 	//reference variable 
 	ManagementSystem managementSystem;
-//	LinkedList<User> shareList;
 	
 	private final int WIDTH = 450, HEIGHT = 150;
 	
-//	public LoginWindow(LinkedList<User> shareList)
 	public LoginWindow(ManagementSystem managementSystem){
 		super("Login Window");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.managementSystem = managementSystem;
-//		this.shareList = shareList;
 		
 		loginPanel();
 		
 		this.setSize(WIDTH,HEIGHT);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		
+		
+		btnLogin.addActionListener(this);
 	}
 	
 	public void loginPanel() {
@@ -58,7 +58,7 @@ public class LoginWindow extends JFrame{
 		
 		btnLogin.setMnemonic(KeyEvent.VK_ENTER);
 		
-		loginButton();
+//		login();
 		cancelButton();
 		
 		pnlTop.add(txtLoginMessage);
@@ -77,54 +77,28 @@ public class LoginWindow extends JFrame{
 		this.add(pnlBottom, BorderLayout.SOUTH);
 	}
 	
-	public void loginButton() {
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				User user = null;
-				if (e.getActionCommand().equals("Login")) {
-					
-					String name = fldUsername.getText();
-					String pass = String.valueOf(fldPassword.getPassword());
-					System.out.println(managementSystem.getListUsers().size());
-					try {
-						if (managementSystem.getListUsers().isEmpty()) {
-							JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
-							registerWindow();
-						} else {
-							
-							user = searchUser(name,pass);
-							
-							if (user == null) {
-								JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
-								registerWindow();
-							} else {
-								if (name.equalsIgnoreCase(user.getUserName()) && pass.equals(user.getUserPassword())) {
-									JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
-									loadingPanel(); //loading animation
-									user.setAttempt(1);
-								} else {
-									registerWindow();
-								}
-							}
-								
-						}
-					} catch (NullPointerException  n) {
-						n.printStackTrace();
-					}
-				}
-			}
-		});
-	}
-	
-	public User searchUser(String name, String pass) {
-		User user = null;
-		for (User each: managementSystem.getListUsers()) {
-			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
-				user = each;
-				return user;
-			}
+	public void login() {
+		
+		String username = fldUsername.getText();
+		String userpassword = String.valueOf(fldPassword.getPassword());
+		
+		try {
+			boolean isFound = managementSystem.isUserNameExists(username);
+			User user = managementSystem.getUser(username, userpassword);
+			
+			System.out.println("Is the User Found? " + isFound);
+			System.out.println("Is User Exists? " + user.getUserName());
+			
+			if(isFound && user != null) {
+				JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
+				loadingPanel(); //loading animation
+				LoginWindow.this.dispose();
+			} else if(!isFound || user == null)
+				errorDialog();
+			
+		} catch (NullPointerException  n) {
+			n.printStackTrace();
 		}
-		return null;
 	}
 	
 	public void registerWindow() {
@@ -158,7 +132,7 @@ public class LoginWindow extends JFrame{
 	            loadDialog.dispose(); // Close the loading dialog
 	            
 	            // here
-	            ApplicationWindow mainApp = new ApplicationWindow();
+	            ApplicationWindow mainApp = new ApplicationWindow(managementSystem);
 	            mainApp.setLocationRelativeTo(null);
 	            mainApp.setVisible(true);
 	            LoginWindow.this.dispose(); // Close the login window
@@ -220,6 +194,17 @@ public class LoginWindow extends JFrame{
 			 JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
 			 System.exit(0);
 		}
+		
+	}
+	
+	public void errorDialog() {
+		JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == btnLogin) login();
 		
 	}
 }

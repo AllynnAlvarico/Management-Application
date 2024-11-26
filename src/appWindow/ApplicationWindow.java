@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import administrative.ManagementSystem;
+
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -54,16 +56,18 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private DefaultTableModel tableModel;
 	private String[] head = {"Product ID","Product Name","Product Type","Price","Quantity"};
 	
-	private LinkedList<User> list;
+//	private LinkedList<User> list;
+	private ManagementSystem managementSys;
 	private User u;
 	
 	//set the width and height
 	private final int WIDTH = 1000, HEIGHT = 500;
 	
-	public ApplicationWindow() {
+	public ApplicationWindow(ManagementSystem ms) {
 		super("Management Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		list = new LinkedList<>();
+//		list = new LinkedList<>();
+		this.managementSys = ms;
 		
 		setMenu();
 		mainUI();
@@ -226,7 +230,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	//search for the user
 	public User searchUser(String name, String pass) {
 		User user = null;
-		for (User each: list) {
+		for (User each: managementSys.getListUsers()) {
 			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
 				user = each;
 				return user;
