@@ -1,27 +1,30 @@
 package administrative;
 
 import java.util.LinkedList;
-import java.util.Random;
+//import java.util.Random;
 
-import record.User;
+import record.*;
 
 public class ManagementSystem {
 	
 	private LinkedList<User> users;
-	private Random rand;
+	private Account accountUser;
 	
 	public ManagementSystem() {
 		users = new LinkedList<>();
-		rand = new Random();
+		
 	}
 	
 	public void addUser(String inputUserName, String inputPassword) {
-		int givenId =  rand.nextInt();
-		String result = "MAUN" + givenId;
+		int givenId = (int)(Math.random() * 99999) + 1;
+		String result = "ACC" + givenId;
 		//need to add a function that will stop a duplicate number on the accountID
-		User userTobeAdded = new User(inputUserName, inputPassword);
-		userTobeAdded.setUniqueId(result);
+		accountUser = new Account(result, result, "Saving");
+		User userTobeAdded = new User(inputUserName, inputPassword, result, accountUser);
 		users.add(userTobeAdded);
+	}
+	
+	public void setUserAccountDetails() {
 		
 	}
 	
@@ -73,4 +76,6 @@ public class ManagementSystem {
  *Created 22/11/2024 by Allynn
  *			Allynn: the -isUserNameExists() checks the list if the user input exists on the memory
  *					addUser() adds the object I haven't linked the User and the Account Class yet. 
+ *Modified 26/11/2024 by Allynn
+ *			Allynn: I have manage to assigned an account number to a user, however I cannot limit the number
  */

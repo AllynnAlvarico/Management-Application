@@ -14,17 +14,19 @@ public class User {
 	private int attempt;
 	private Account userAccount;
 	
-	public User(String name, String password){
+	public User(String name, String password, String assignedId){
 		this.userName = name;
 		this.userPassword = password;
+		this.userUnique = assignedId;
 		this.userAccount = null;
 	}
 	
-//	public User(String name, String password, String uniqueID){
-//		this.userName = name;
-//		this.userPassword = password;
-//		this.userUnique = uniqueID;
-//	}
+	public User(String name, String password, String assignedId, Account assignedAccount){
+		this.userName = name;
+		this.userPassword = password;
+		this.userUnique = assignedId;
+		this.userAccount = assignedAccount;
+	}
 	
 	/**
 	 * Anson - I commit a change on adding a constructor that only contains user name, password, and attempt to track is user login or not
@@ -47,6 +49,9 @@ public class User {
 	
 	public void setUniqueId(String givenID){
 		this.userUnique = givenID;
+	}
+	public void setUserAccount(Account assignedAccount) {
+		this.userAccount = assignedAccount;
 	}
 	
 	public void setAttempt(int attempt) {

@@ -10,7 +10,7 @@ public class TestApp {
 	
 	static ManagementSystem mgtSystem = new ManagementSystem();
 	boolean isExists;
-	User user;
+	static User user;
 	
 	public TestApp() {
 		
@@ -36,7 +36,7 @@ public class TestApp {
 			public void run() {
 				// TODO Auto-generated method stub
 				//new LoginWindow(sharedUserList).setVisible(true);
-				new ApplicationWindow(mgtSystem).setVisible(true);
+				new ApplicationWindow(mgtSystem, user).setVisible(true);
 			}
 			
 		});

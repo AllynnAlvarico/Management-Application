@@ -28,6 +28,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 	
 	//reference variable 
 	ManagementSystem managementSystem;
+	User referencedUser;
 	
 	private final int WIDTH = 450, HEIGHT = 150;
 	
@@ -84,16 +85,13 @@ public class LoginWindow extends JFrame implements ActionListener{
 		
 		try {
 			boolean isFound = managementSystem.isUserNameExists(username);
-			User user = managementSystem.getUser(username, userpassword);
+			referencedUser = managementSystem.getUser(username, userpassword);
 			
-//			System.out.println("Is the User Found? " + isFound);
-//			System.out.println("Is User Exists? " + user.getUserName());
-			
-			if(isFound && user != null) {
-				JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
+			if(isFound && referencedUser != null) {
+				JOptionPane.showMessageDialog(null, "Account '" + referencedUser.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
 				loadingPanel(); //loading animation
 				LoginWindow.this.dispose();
-			} else if(!isFound || user == null)
+			} else if(!isFound || referencedUser == null)
 				errorDialog();
 			
 		} catch (NullPointerException  n) {
@@ -132,7 +130,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 	            loadDialog.dispose(); // Close the loading dialog
 	            
 	            // here
-	            ApplicationWindow mainApp = new ApplicationWindow(managementSystem);
+	            ApplicationWindow mainApp = new ApplicationWindow(managementSystem, referencedUser);
 	            mainApp.setLocationRelativeTo(null);
 	            mainApp.setVisible(true);
 	            LoginWindow.this.dispose(); // Close the login window
