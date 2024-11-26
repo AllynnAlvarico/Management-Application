@@ -101,7 +101,6 @@ public class LoginWindow extends JFrame{
 								if (name.equalsIgnoreCase(user.getUserName()) && pass.equals(user.getUserPassword())) {
 									JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
 									loadingPanel(); //loading animation
-									user.setAttempt(1);
 								} else {
 									registerWindow();
 								}
@@ -145,8 +144,8 @@ public class LoginWindow extends JFrame{
 		
 		loadPanel.add(process);
 		loadDialog.add(loadPanel);
-		
-		loadDialog.setSize(WIDTH,HEIGHT);
+		loadDialog.setSize(150,100);
+		loadDialog.pack();
 		loadDialog.setLocationRelativeTo(null);
 		loadDialog.setVisible(true);
 		
@@ -191,7 +190,7 @@ public class LoginWindow extends JFrame{
 	    		i += 2; 
 	    	}
 	            
-	    Thread.sleep(2000);
+	    Thread.sleep(1500);
 	            
 	    SwingUtilities.invokeLater(() -> loadDialog.dispose());
 	    } catch (Exception e) {
@@ -212,14 +211,13 @@ public class LoginWindow extends JFrame{
 	public void cancelOption() {
 		
 		JPanel ask = new JPanel();
-		ask.add(new JLabel("Do you sure you wish to log out?"));	
+		ask.add(new JLabel("Do you sure you wish to cancel?"));	
 			
 		int result = JOptionPane.showConfirmDialog(this, ask, "Are you sure?",JOptionPane.OK_CANCEL_OPTION);
 				
 		if (result == JOptionPane.OK_OPTION) {
-			 JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
+			 JOptionPane.showMessageDialog(null, "Alright, see you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
 			 System.exit(0);
 		}
-		
 	}
 }

@@ -24,7 +24,6 @@ public class TestApp {
 		System.out.println(user.getUserName());
 		System.out.println(user.getID());
 		
-		
 	}
 	
 	public static void main(String[] args) {

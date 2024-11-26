@@ -33,27 +33,27 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JMenuBar menuBar;
 	
 	//variable for account details 
-	private JLabel txtAccountID, txtCustomerID, txtBalance, txtAccountType, txtCurrency, txtStatus;
-	private JFormattedTextField fldAccountID, fldCustomerID, fldBalance, fldAccountType, fldCurrency, fldStatus;
+	private JLabel lblAccountID, txtCustomerID, txtBalance, lblAccountType, txtCurrency, txtStatus;
+	private JFormattedTextField txtAccountID, fldCustomerID, fldBalance, fldAccountType, fldCurrency, fldStatus;
 	
 	//variable for main UI 
 	private JPanel pnlTop, pnlBottom;
-	private JPanel pnlPurchaseList, pnlAccountDetail;
+	private JPanel pnlAdd_Withdraw_List, pnlTransfer, pnlExchange, pnlAccountDetail;
 	private JPanel pnlMainTop, pnlMainCentral,pnlMainBottom;
 	private JLabel txtAccountName;
-	private JTabbedPane tbpPurchaseList;
+	private JTabbedPane tbpList;
 	private JButton btnLogOut;
 	private Date date;
 	
 	//variable for inventory purchase function
-	private JPanel topInventoryPanel, centralInventoryPanel, bottomInventoryPanel;
+	/*private JPanel topInventoryPanel, centralInventoryPanel, bottomInventoryPanel;
 	private JTextField fldSearch, fldSearchproductID, fldQuantity;
 	private JLabel txtSearchProduct, txtSearchproductID, txtQuantity;
 	private JButton btnSearch, btnPurcase;
 	private JTable table;
 	private JScrollPane scrollTable;
-	private DefaultTableModel tableModel;
-	private String[] head = {"Product ID","Product Name","Product Type","Price","Quantity"};
+	private DefaultTableModel tableModel;*/
+	//private String[] head = {"Product ID","Product Name","Product Type","Price","Quantity"};
 	
 	//variable for account details table
 	private JPanel pnlAccount;
@@ -118,8 +118,8 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlMainCentral = new JPanel();
 		pnlMainBottom = new JPanel();
 		txtAccountName = new JLabel("Hi Anson, it's good to see you back!");
-		txtAccountID = new JLabel("Account ID:");
-		fldAccountID = new JFormattedTextField("D22124534");
+		lblAccountID = new JLabel("Account ID:");
+		txtAccountID = new JFormattedTextField("D22124534");
 		txtBalance = new JLabel("Current Balance: ");
 		fldBalance = new JFormattedTextField("1000.00");
 		btnLogOut = new JButton("Log Out");
@@ -136,8 +136,8 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//add to the panel
 		pnlMainTop.add(txtAccountName, BorderLayout.WEST);
 		pnlMainTop.add(btnLogOut, BorderLayout.EAST);
+		pnlMainCentral.add(lblAccountID);
 		pnlMainCentral.add(txtAccountID);
-		pnlMainCentral.add(fldAccountID);
 		pnlMainBottom.add(txtBalance);
 		pnlMainBottom.add(fldBalance);
 		
@@ -145,11 +145,11 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		btnLogOut.addActionListener(this);
 		
 		//set the text field not editable
-		fldAccountID.setEditable(false);
+		txtAccountID.setEditable(false);
 		fldBalance.setEditable(false);
 		
 		//set the size of the text field
-		fldAccountID.setPreferredSize(new Dimension(200,25));
+		txtAccountID.setPreferredSize(new Dimension(200,25));
 		fldBalance.setPreferredSize(new Dimension(200,25));
 		
 		//add to other panel with position
@@ -169,79 +169,81 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	//
 	public void tabbedPane() {
 		//defining 
-		pnlBottom = new JPanel();
-		pnlPurchaseList = new JPanel();
+		pnlBottom = new JPanel(); // the bottom of the main panel
 		pnlAccountDetail = new JPanel();
-		tbpPurchaseList = new JTabbedPane();
+		pnlAdd_Withdraw_List = new JPanel();
+		pnlTransfer = new JPanel();
+		pnlExchange = new JPanel();
+		tbpList = new JTabbedPane();
 		
 		//calling method
-		productTable();
+		//productTable();
 		accountTable();
+		addWithdrawPanel();
+		transactionPanel();
 				
 		//add to the panel
-		tbpPurchaseList.add(pnlAccountDetail, "Account");
-		tbpPurchaseList.add(pnlPurchaseList, "Product");
-		pnlBottom.add(tbpPurchaseList);
+		tbpList.add(pnlAccountDetail, "Account");
+		tbpList.add(pnlAdd_Withdraw_List, "Add/Withdraw Money");
+		tbpList.add(pnlTransfer, "Transaction");
+		tbpList.add(pnlExchange, "Exchange");
+		pnlBottom.add(tbpList);
 		pnlBottom.setLayout(new GridLayout(1,0));
 		this.add(pnlBottom, BorderLayout.CENTER);
 	}
 	
-	//method for the user to purchase the product
-	public void productTable() {
-		pnlPurchaseList = new JPanel();
-		topInventoryPanel = new JPanel();
-		centralInventoryPanel = new JPanel(new BorderLayout());
-		bottomInventoryPanel = new JPanel();
-		txtSearchProduct = new JLabel("Product Name:");
-		fldSearch = new JTextField(10);
-		txtSearchproductID = new JLabel("Product ID");
-		fldSearchproductID = new JTextField(10);
-		btnSearch = new JButton("Search");
-		txtQuantity = new JLabel("Quantity: ");
-		fldQuantity = new JTextField(10);
-		btnPurcase = new JButton("Purchase");
+	public void addWithdrawPanel() {
+		pnlAdd_Withdraw_List = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel topAddWithdrawPanel = new JPanel();
+		JPanel centralAddWithdrawPanel = new JPanel();
+		JPanel bottomAddWithdrawPanel = new JPanel();
+		lblAccountID = new JLabel("Account ID");
+		txtAccountID = new JFormattedTextField("D22124534");
+		JLabel txtAmount = new JLabel("Amount ");
+		JFormattedTextField fldAmount = new JFormattedTextField(0.00);
+		JButton btnAdd = new JButton("Add");
+		JButton btnWithdrawal = new JButton("Withdraw");
+		JTextArea txtResult = new JTextArea();
 		
-		//set the pnlPurchaseList a border layout
-		pnlPurchaseList.setLayout(new BorderLayout());
+		//set the layout
+		mainPanel.setLayout(new BorderLayout());
+		topAddWithdrawPanel.setLayout(new GridLayout(2,4));
 		
-		//top panel
-		topInventoryPanel.add(txtSearchProduct);
-		topInventoryPanel.add(fldSearch);
-		topInventoryPanel.add(txtSearchproductID);
-		topInventoryPanel.add(fldSearchproductID);
-		topInventoryPanel.add(btnSearch);
-		pnlPurchaseList.add(topInventoryPanel, BorderLayout.NORTH);
+		//set the preferred size 
+		txtAccountID.setPreferredSize(new Dimension(200,25));
+		fldAmount.setPreferredSize(new Dimension(200,25));
+		txtResult.setPreferredSize(new Dimension(900,180));
 		
-		//center panel
-		tableModel = new DefaultTableModel(head,0);
-		table = new JTable(tableModel);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoCreateRowSorter(true);
-		scrollTable = new JScrollPane(table);
-		centralInventoryPanel.add(scrollTable);
-		pnlPurchaseList.add(centralInventoryPanel, BorderLayout.CENTER);
+		//add to the panel for add and withdraw
+		topAddWithdrawPanel.add(lblAccountID);
+		topAddWithdrawPanel.add(txtAccountID);
+		topAddWithdrawPanel.add(txtAmount);
+		topAddWithdrawPanel.add(fldAmount);
+		centralAddWithdrawPanel.add(btnAdd);
+		centralAddWithdrawPanel.add(btnWithdrawal);
+		bottomAddWithdrawPanel.add(txtResult);
 		
-		//bottom panel 
-		bottomInventoryPanel.add(txtQuantity);
-		bottomInventoryPanel.add(fldQuantity);
-		bottomInventoryPanel.add(btnPurcase);
-		pnlPurchaseList.add(bottomInventoryPanel, BorderLayout.SOUTH);
+		//add to the panel on main panel 
+		mainPanel.add(topAddWithdrawPanel, BorderLayout.NORTH);
+		mainPanel.add(centralAddWithdrawPanel, BorderLayout.CENTER);
+		mainPanel.add(bottomAddWithdrawPanel, BorderLayout.SOUTH);
+		pnlAdd_Withdraw_List.add(mainPanel);
 	}
 	
 	//method that display all the detail of the account
 	public void accountTable() {
 		pnlAccountDetail = new JPanel();
 		pnlAccount = new JPanel();
-		txtAccountID = new JLabel("Account ID ");
-		fldAccountID = new JFormattedTextField("D22124534");
+		lblAccountID = new JLabel("Account ID ");
+		txtAccountID = new JFormattedTextField("D22124534");
 		txtCustomerID = new JLabel("Customer ID  ");
 		fldCustomerID = new JFormattedTextField("D22124456");
 		txtBalance = new JLabel("Current Balance  ");
 		fldBalance = new JFormattedTextField("1000.00");
 		txtCurrency = new JLabel("Currency  ");
 		fldCurrency = new JFormattedTextField("EUR");
-		txtAccountType = new JLabel("Account Type  ");
+		lblAccountType = new JLabel("Account Type  ");
 		fldAccountType = new JFormattedTextField("Advance");
 		txtStatus = new JLabel("Status  ");
 		fldStatus = new JFormattedTextField("Active");
@@ -250,7 +252,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlAccount.setLayout(new GridLayout(6,2));
 		
 		//set the text field not editable
-		fldAccountID.setEditable(false);
+		txtAccountID.setEditable(false);
 		fldCustomerID.setEditable(false);
 		fldBalance.setEditable(false);
 		fldCurrency.setEditable(false);
@@ -258,7 +260,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		fldStatus.setEditable(false);
 		
 		//set the preferred size of text field
-		fldAccountID.setPreferredSize(new Dimension(250,50));
+		txtAccountID.setPreferredSize(new Dimension(250,50));
 		fldCustomerID.setPreferredSize(new Dimension(250,50));
 		fldBalance.setPreferredSize(new Dimension(250,50));
 		fldCurrency.setPreferredSize(new Dimension(250,50));
@@ -269,21 +271,91 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		fldStatus.setForeground(Color.GREEN);
 
 		//add to the pnlAccount
+		pnlAccount.add(lblAccountID);
 		pnlAccount.add(txtAccountID);
-		pnlAccount.add(fldAccountID);
 		pnlAccount.add(txtCustomerID);
 		pnlAccount.add(fldCustomerID);
 		pnlAccount.add(txtBalance);
 		pnlAccount.add(fldBalance);
 		pnlAccount.add(txtCurrency);
 		pnlAccount.add(fldCurrency);
-		pnlAccount.add(txtAccountType);
+		pnlAccount.add(lblAccountType);
 		pnlAccount.add(fldAccountType);
 		pnlAccount.add(txtStatus);
 		pnlAccount.add(fldStatus);
 		
 		//add to the pnlAccountDetail panel
 		pnlAccountDetail.add(pnlAccount, BorderLayout.CENTER);
+	}
+	
+	private void transactionPanel() {
+		String[] arrAccountType = {"Saving","Business","Investment"};
+		
+		pnlTransfer = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel topMainPanel = new JPanel();
+		JPanel centralMainPanel = new JPanel();
+		JPanel bottomMainPanel = new JPanel();
+//		JLabel lblEnterAccountDetail = new JLabel("Enter Account Details: ");
+//		JLabel lblEnterEmail = new JLabel("Their email (Optional): ");
+//		JFormattedTextField txtEmailOption = new JFormattedTextField();
+		JLabel lblReceiverDetail = new JLabel("Enter Recipient's Detail");
+		JLabel lblUsername = new JLabel("Username of the Account holder:");
+		JFormattedTextField txtUsername = new JFormattedTextField();
+		lblAccountType = new JLabel("Account Type:");
+		JComboBox<String> cbAccountType = new JComboBox<>(arrAccountType);
+		lblAccountID = new JLabel("Enter Account ID:");
+		txtAccountID = new JFormattedTextField();
+		JLabel lblAmountTransfer = new JLabel("Enter the Amount:");
+		JFormattedTextField txtAmountTransfer = new JFormattedTextField();
+		JButton btnComfirm = new JButton("Comfirm");
+		
+		//set the border for the panel
+		mainPanel.setLayout(new BorderLayout());
+		topMainPanel.setLayout(new GridLayout(2,0,3,0));
+		centralMainPanel.setLayout(new GridLayout(8,0,3,0));
+		//bottomMainPanel.setLayout(new GridLayout(2,0));
+		
+		//set the preferred size for the text field
+		//txtEmailOption.setPreferredSize(new Dimension(200,25));
+		txtUsername.setPreferredSize(new Dimension(200,25));
+		txtAccountID.setPreferredSize(new Dimension(200,25));
+		txtAmountTransfer.setPreferredSize(new Dimension(200,25));
+		
+		//set label font 
+		//lblEnterAccountDetail.setFont(new Font("Arial",Font.BOLD,16));
+		lblReceiverDetail.setFont(new Font("Arial",Font.BOLD,23));
+		
+		//add to the top main panel
+		topMainPanel.add(lblReceiverDetail);
+//		topMainPanel.add(lblEnterEmail);
+//		topMainPanel.add(txtEmailOption);
+		
+		//add to the central main panel
+		//centralMainPanel.add(lblReceiverDetail);
+		centralMainPanel.add(lblUsername);
+		centralMainPanel.add(txtUsername);
+		centralMainPanel.add(lblAccountType);
+		centralMainPanel.add(cbAccountType);
+		centralMainPanel.add(lblAccountID);
+		centralMainPanel.add(txtAccountID);
+		centralMainPanel.add(lblAmountTransfer);
+		centralMainPanel.add(txtAmountTransfer);
+		
+		//add to the bottom main panel
+		bottomMainPanel.add(btnComfirm);
+		
+		//add to the main panel
+		mainPanel.add(topMainPanel, BorderLayout.NORTH);
+		mainPanel.add(centralMainPanel, BorderLayout.CENTER);
+		mainPanel.add(bottomMainPanel, BorderLayout.SOUTH);
+		
+		//add to the tab table
+		pnlTransfer.add(mainPanel);
+	}
+	
+	public void exchangePanel() {
+		
 	}
 
 	@Override
@@ -331,7 +403,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	/*
-	 * Created class on 22/11/2024 by Anson.
+	 * Created class on 22/11/2024 by) Anson.
 	 * 		Anson: I create a class for GUI that are able to register, login, lot out, and quit the program
 	 * 			   Also, I add a short cut for the user to using those action and you can see it on the menu bar
 	 * 			   So the register are using the linkedlistt to store the username and password 
