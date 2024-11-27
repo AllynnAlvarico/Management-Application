@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import administrative.ManagementSystem;
+
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -34,7 +36,10 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//variable for account details 
 	private JLabel lblAccountID, txtBalance, lblAccountType, txtCurrency, txtStatus;
-	private JFormattedTextField txtAccountID, fldCustomerID, fldBalance, fldAccountType, fldCurrency, fldStatus;
+	
+	JLabel txtAccountID;
+	
+	private JFormattedTextField fldCustomerID, fldAccountID, fldBalance, fldAccountType, fldCurrency, fldStatus;
 	
 	//variable for personal details
 	private JLabel lblCustomerID, lblCustomerName, lblCustomerEmail, lblCustomerPhoneNo;
@@ -62,17 +67,19 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	//variable for account details table
 	private JPanel pnlAccount;
 	
-	private LinkedList<User> list;
-	private User u;
+//	private LinkedList<User> list;
+	private ManagementSystem managementSys;
+	private User authorisedUser;
 	
 	//set the width and height
 	private final int WIDTH = 1000, HEIGHT = 500;
 	
-	public ApplicationWindow() {
+	public ApplicationWindow(ManagementSystem ms, User passedDataUser) {
 		super("Management Application");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		list = new LinkedList<>();
-		
+//		list = new LinkedList<>();
+		this.managementSys = ms;
+		this.authorisedUser = passedDataUser;
 		setMenu();
 		mainUI();
 		
@@ -116,17 +123,24 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	public void mainUI() {
+		String accountName = authorisedUser.getUserName();
+		String accountId = authorisedUser.getID();
+		Double accountBalance = authorisedUser.getAccount().getBalance();
+		
+		
+		
+		
 		//defining the reference variable
 		pnlTop = new JPanel();
 		pnlMainTop = new JPanel();
 		pnlMainCentral = new JPanel();
 		pnlMainBottom = new JPanel();
-		txtAccountName = new JLabel("Hi Anson, it's good to see you back!");
-		lblAccountID = new JLabel("Account ID:");
-		txtAccountID = new JFormattedTextField("D22124534");
+		
+		txtAccountName = new JLabel("Hi " + accountName + ", it's good to see you back!");
+		txtAccountID = new JLabel("Account ID:");
+		fldAccountID = new JFormattedTextField(accountId);
 		txtBalance = new JLabel("Current Balance: ");
-		fldBalance = new JFormattedTextField("1000.00");
-		btnLogOut = new JButton("Log Out");
+		fldBalance = new JFormattedTextField(accountBalance);
 		
 		//change font and color
 		txtAccountName.setFont(new Font("Arial",Font.BOLD,16));
@@ -149,7 +163,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		btnLogOut.addActionListener(this);
 		
 		//set the text field not editable
-		txtAccountID.setEditable(false);
+//		txtAccountID.setEditable(false);
 		fldBalance.setEditable(false);
 		
 		//set the size of the text field
@@ -206,7 +220,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel centralAddWithdrawPanel = new JPanel();
 		JPanel bottomAddWithdrawPanel = new JPanel();
 		lblAccountID = new JLabel("Account ID");
-		txtAccountID = new JFormattedTextField("D22124534");
+//		txtAccountID = new JFormattedTextField("D22124534");
 		JLabel txtAmount = new JLabel("Amount ");
 		JFormattedTextField fldAmount = new JFormattedTextField(0.00);
 		JButton btnAdd = new JButton("Add");
@@ -243,7 +257,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlAccountDetail = new JPanel();
 		pnlAccount = new JPanel();
 		lblAccountID = new JLabel("Account ID ");
-		txtAccountID = new JFormattedTextField("D22124534");
+//		txtAccountID = new JFormattedTextField("D22124534");
 		txtBalance = new JLabel("Current Balance  ");
 		fldBalance = new JFormattedTextField("1000.00");
 		txtCurrency = new JLabel("Currency  ");
@@ -260,7 +274,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		fldStatus.setForeground(Color.GREEN);
 		
 		//set the text field not editable
-		txtAccountID.setEditable(false);
+//		txtAccountID.setEditable(false);
 		fldBalance.setEditable(false);
 		fldCurrency.setEditable(false);
 		fldAccountType.setEditable(false);
@@ -357,7 +371,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		lblAccountType = new JLabel("Account Type:");
 		JComboBox<String> cbAccountType = new JComboBox<>(arrAccountType);
 		lblAccountID = new JLabel("Enter Account ID:");
-		txtAccountID = new JFormattedTextField();
+//		txtAccountID = new JFormattedTextField();
 		JLabel lblAmountTransfer = new JLabel("Enter the Amount:");
 		JFormattedTextField txtAmountTransfer = new JFormattedTextField();
 		JButton btnComfirm = new JButton("Comfirm");
@@ -464,19 +478,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 			System.exit(0);
 		}
 	}
-	
-	//search for the user
-	public User searchUser(String name, String pass) {
-		User user = null;
-		for (User each: list) {
-			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
-				user = each;
-				return user;
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * This method is for log out function 
 	 * so first if the user haven't log out the account then it will ask user "do you wish to log out"
@@ -490,12 +491,26 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel pnlAsk = new JPanel();
 		pnlAsk.add(new JLabel("Do you sure you wish to log out?"));	
 		
-		int result = JOptionPane.showConfirmDialog(this,pnlAsk,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
+//<<<<<<< HEAD
+//		int result = JOptionPane.showConfirmDialog(this,pnlAsk,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
+//			
+//		 if (result == JOptionPane.OK_OPTION) {
+//		 	view.setEnabled(false);
+//		 	placeOrder.setEnabled(false);
+//		 	JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
+//=======
+		if (authorisedUser.getAttempt() < 1) {
+			JOptionPane.showMessageDialog(null, "You haven't log in yet, please log in first!","Info", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			int result = JOptionPane.showConfirmDialog(this, "Ask" ,"Please process to login:  ",JOptionPane.OK_CANCEL_OPTION);
 			
-		 if (result == JOptionPane.OK_OPTION) {
-		 	view.setEnabled(false);
-		 	placeOrder.setEnabled(false);
-		 	JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
+		 	if (result == JOptionPane.OK_OPTION) {
+		 		authorisedUser.setAttempt(0);
+		 		view.setEnabled(false);
+		 		placeOrder.setEnabled(false);
+		 		JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
+			}
+//>>>>>>> dbf0b35761bf67d3e1b70b3b09389371fd8f7b20
 		}
 	}
 	
