@@ -33,12 +33,16 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JMenuBar menuBar;
 	
 	//variable for account details 
-	private JLabel lblAccountID, txtCustomerID, txtBalance, lblAccountType, txtCurrency, txtStatus;
+	private JLabel lblAccountID, txtBalance, lblAccountType, txtCurrency, txtStatus;
 	private JFormattedTextField txtAccountID, fldCustomerID, fldBalance, fldAccountType, fldCurrency, fldStatus;
+	
+	//variable for personal details
+	private JLabel lblCustomerID, lblCustomerName, lblCustomerEmail, lblCustomerPhoneNo;
+	private JFormattedTextField txtCustomerID, txtCustomerName, txtCustomerEmail, txtCustomerPhoneNo;
 	
 	//variable for main UI 
 	private JPanel pnlTop, pnlBottom;
-	private JPanel pnlAdd_Withdraw_List, pnlTransfer, pnlExchange, pnlAccountDetail;
+	private JPanel pnlPersonalDetail,pnlAdd_Withdraw_List, pnlTransfer, pnlExchange, pnlAccountDetail;
 	private JPanel pnlMainTop, pnlMainCentral,pnlMainBottom;
 	private JLabel txtAccountName;
 	private JTabbedPane tbpList;
@@ -171,19 +175,22 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//defining 
 		pnlBottom = new JPanel(); // the bottom of the main panel
 		pnlAccountDetail = new JPanel();
+		pnlPersonalDetail = new JPanel();
 		pnlAdd_Withdraw_List = new JPanel();
 		pnlTransfer = new JPanel();
 		pnlExchange = new JPanel();
 		tbpList = new JTabbedPane();
 		
 		//calling method
-		//productTable();
 		accountTable();
+		personalDetailPanel();
 		addWithdrawPanel();
 		transactionPanel();
+		exchangePanel();
 				
 		//add to the panel
 		tbpList.add(pnlAccountDetail, "Account");
+		tbpList.add(pnlPersonalDetail, "Personal");
 		tbpList.add(pnlAdd_Withdraw_List, "Add/Withdraw Money");
 		tbpList.add(pnlTransfer, "Transaction");
 		tbpList.add(pnlExchange, "Exchange");
@@ -232,13 +239,11 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	//method that display all the detail of the account
-	public void accountTable() {
+	protected void accountTable() {
 		pnlAccountDetail = new JPanel();
 		pnlAccount = new JPanel();
 		lblAccountID = new JLabel("Account ID ");
 		txtAccountID = new JFormattedTextField("D22124534");
-		txtCustomerID = new JLabel("Customer ID  ");
-		fldCustomerID = new JFormattedTextField("D22124456");
 		txtBalance = new JLabel("Current Balance  ");
 		fldBalance = new JFormattedTextField("1000.00");
 		txtCurrency = new JLabel("Currency  ");
@@ -249,11 +254,13 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		fldStatus = new JFormattedTextField("Active");
 		
 		//set it to grid layout
-		pnlAccount.setLayout(new GridLayout(6,2));
+		pnlAccount.setLayout(new GridLayout(5,2));
+		
+		//set the status to green if is active
+		fldStatus.setForeground(Color.GREEN);
 		
 		//set the text field not editable
 		txtAccountID.setEditable(false);
-		fldCustomerID.setEditable(false);
 		fldBalance.setEditable(false);
 		fldCurrency.setEditable(false);
 		fldAccountType.setEditable(false);
@@ -261,20 +268,14 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		
 		//set the preferred size of text field
 		txtAccountID.setPreferredSize(new Dimension(250,50));
-		fldCustomerID.setPreferredSize(new Dimension(250,50));
 		fldBalance.setPreferredSize(new Dimension(250,50));
 		fldCurrency.setPreferredSize(new Dimension(250,50));
 		fldAccountType.setPreferredSize(new Dimension(250,50));
 		fldStatus.setPreferredSize(new Dimension(250,50));
-		
-		//set the status to green if is active
-		fldStatus.setForeground(Color.GREEN);
 
 		//add to the pnlAccount
 		pnlAccount.add(lblAccountID);
 		pnlAccount.add(txtAccountID);
-		pnlAccount.add(txtCustomerID);
-		pnlAccount.add(fldCustomerID);
 		pnlAccount.add(txtBalance);
 		pnlAccount.add(fldBalance);
 		pnlAccount.add(txtCurrency);
@@ -288,7 +289,61 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlAccountDetail.add(pnlAccount, BorderLayout.CENTER);
 	}
 	
-	private void transactionPanel() {
+	protected void personalDetailPanel() {
+		pnlPersonalDetail = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel topMainPanel = new JPanel();
+		JPanel bottomMainPanel = new JPanel();
+		lblCustomerID = new JLabel("Customer ID");
+		txtCustomerID = new JFormattedTextField("D22124567");
+		lblCustomerName = new JLabel("Name");
+		txtCustomerName = new JFormattedTextField("Anson Ling");
+		lblCustomerEmail = new JLabel("Email");
+		txtCustomerEmail  = new JFormattedTextField("D221245672gmail.com");
+		lblCustomerPhoneNo = new JLabel("Phone Number");
+		txtCustomerPhoneNo = new JFormattedTextField("087-991-7659");
+		JButton btnMakeChange = new JButton("Make Change");
+		JButton btnConfirmChange = new JButton("Confirm Change");
+		
+		//set the layout
+		mainPanel.setLayout(new BorderLayout());
+		topMainPanel.setLayout(new GridLayout(4,2));
+		
+		//set the preferred size for the text field
+		txtCustomerID.setPreferredSize(new Dimension(250,50));
+		txtCustomerName.setPreferredSize(new Dimension(250,50));
+		txtCustomerEmail.setPreferredSize(new Dimension(250,50));
+		txtCustomerPhoneNo.setPreferredSize(new Dimension(250,50));
+		
+		//set the text field is non editable 
+		txtCustomerID.setEditable(false);
+		txtCustomerName.setEditable(false);
+		txtCustomerEmail.setEditable(false);
+		txtCustomerPhoneNo.setEditable(false);
+		
+		//add to the top main panel
+		topMainPanel.add(lblCustomerID);
+		topMainPanel.add(txtCustomerID);
+		topMainPanel.add(lblCustomerName);
+		topMainPanel.add(txtCustomerName);
+		topMainPanel.add(lblCustomerEmail);
+		topMainPanel.add(txtCustomerEmail);
+		topMainPanel.add(lblCustomerPhoneNo);
+		topMainPanel.add(txtCustomerPhoneNo);
+		
+		//add to the bottom main panel
+		bottomMainPanel.add(btnMakeChange);
+		bottomMainPanel.add(btnConfirmChange);
+		
+		//add to the main panel
+		mainPanel.add(topMainPanel, BorderLayout.NORTH);
+		mainPanel.add(bottomMainPanel, BorderLayout.SOUTH);
+		
+		//add to the personal details tab table panel
+		pnlPersonalDetail.add(mainPanel);
+	}
+	
+	protected void transactionPanel() {
 		String[] arrAccountType = {"Saving","Business","Investment"};
 		
 		pnlTransfer = new JPanel();
@@ -296,9 +351,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel topMainPanel = new JPanel();
 		JPanel centralMainPanel = new JPanel();
 		JPanel bottomMainPanel = new JPanel();
-//		JLabel lblEnterAccountDetail = new JLabel("Enter Account Details: ");
-//		JLabel lblEnterEmail = new JLabel("Their email (Optional): ");
-//		JFormattedTextField txtEmailOption = new JFormattedTextField();
 		JLabel lblReceiverDetail = new JLabel("Enter Recipient's Detail");
 		JLabel lblUsername = new JLabel("Username of the Account holder:");
 		JFormattedTextField txtUsername = new JFormattedTextField();
@@ -323,7 +375,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		txtAmountTransfer.setPreferredSize(new Dimension(200,25));
 		
 		//set label font 
-		//lblEnterAccountDetail.setFont(new Font("Arial",Font.BOLD,16));
 		lblReceiverDetail.setFont(new Font("Arial",Font.BOLD,23));
 		
 		//add to the top main panel
@@ -355,7 +406,53 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	public void exchangePanel() {
+		String[] arrExchangeCurrency = {"EUR","USD-Dollar","GBP","SGD","PHP","JPY","MYR"};
+		pnlExchange = new JPanel();
+		JPanel mainPanel = new JPanel();
+		JPanel topMainPanel = new JPanel();
+		JPanel centralMainPanel = new JPanel();
+		JPanel bottomMainPanel = new JPanel();
+		JLabel lblExchangeMessage = new JLabel("Exchange Here");
+		JLabel lblExchangeAmount = new JLabel("Main Amount: ");
+		JFormattedTextField txtExchangeAmount = new JFormattedTextField();
+		JComboBox<String> cmbExchangeCurrency = new JComboBox<>(arrExchangeCurrency);
+		JLabel lblTargetExchangeAmount = new JLabel("Target Amount: ");
+		JFormattedTextField txtTargetExchangeCurrency = new JFormattedTextField();
+		JComboBox<String> cmbTargetExchangeCurrency = new JComboBox<>(arrExchangeCurrency);
+		JButton btnConfirmExchange = new JButton("Confirm");
 		
+		//set the layout
+		mainPanel.setLayout(new BorderLayout());
+		centralMainPanel.setLayout(new GridLayout(2,3,30,50));
+		
+		//set the preferred size for the text field 
+		txtExchangeAmount.setPreferredSize(new Dimension(200,25));
+		txtTargetExchangeCurrency.setPreferredSize(new Dimension(200,25));
+		
+		//set the front
+		lblExchangeMessage.setFont(new Font("Arial",Font.BOLD,23));
+		
+		//add to the top main panel
+		topMainPanel.add(lblExchangeMessage);
+		
+		//add to the central main panel
+		centralMainPanel.add(lblExchangeAmount);
+		centralMainPanel.add(txtExchangeAmount);
+		centralMainPanel.add(cmbExchangeCurrency);
+		centralMainPanel.add(lblTargetExchangeAmount);
+		centralMainPanel.add(txtTargetExchangeCurrency);
+		centralMainPanel.add(cmbTargetExchangeCurrency);
+		
+		//add to the bottom main panel
+		bottomMainPanel.add(btnConfirmExchange);
+		
+		//add to the main panel
+		mainPanel.add(topMainPanel, BorderLayout.NORTH);
+		mainPanel.add(centralMainPanel, BorderLayout.CENTER);
+		mainPanel.add(bottomMainPanel, BorderLayout.SOUTH);
+		
+		//add to the exchange tab table panel
+		pnlExchange.add(mainPanel);
 	}
 
 	@Override
