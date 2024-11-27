@@ -78,6 +78,53 @@ public class LoginWindow extends JFrame implements ActionListener{
 		this.add(pnlBottom, BorderLayout.SOUTH);
 	}
 	
+//<<<<<<< HEAD
+//	public void loginButton() {
+//		btnLogin.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				User user = null;
+//				if (e.getActionCommand().equals("Login")) {
+//					
+//					String name = fldUsername.getText();
+//					String pass = String.valueOf(fldPassword.getPassword());
+//					System.out.println(managementSystem.getListUsers().size());
+//					try {
+//						if (managementSystem.getListUsers().isEmpty()) {
+//							JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
+//							registerWindow();
+//						} else {
+//							
+//							user = searchUser(name,pass);
+//							
+//							if (user == null) {
+//								JOptionPane.showMessageDialog(null, "No accounts found, please register first!", "No Accounts", JOptionPane.INFORMATION_MESSAGE);
+//								registerWindow();
+//							} else {
+//								if (name.equalsIgnoreCase(user.getUserName()) && pass.equals(user.getUserPassword())) {
+//									JOptionPane.showMessageDialog(null, "Account '" + user.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
+//									loadingPanel(); //loading animation
+//								} else {
+//									registerWindow();
+//								}
+//							}
+//								
+//						}
+//					} catch (NullPointerException  n) {
+//						n.printStackTrace();
+//					}
+//				}
+//			}
+//		});
+//	}
+//	
+//	public User searchUser(String name, String pass) {
+//		User user = null;
+//		for (User each: managementSystem.getListUsers()) {
+//			if (name.equalsIgnoreCase(each.getUserName()) && pass.equals(each.getUserPassword())) {
+//				user = each;
+//				return user;
+//			}
+//=======
 	public void login() {
 		
 		String username = fldUsername.getText();
@@ -96,6 +143,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			
 		} catch (NullPointerException  n) {
 			n.printStackTrace();
+//>>>>>>> dbf0b35761bf67d3e1b70b3b09389371fd8f7b20
 		}
 	}
 	
@@ -117,8 +165,8 @@ public class LoginWindow extends JFrame implements ActionListener{
 		
 		loadPanel.add(process);
 		loadDialog.add(loadPanel);
-		
-		loadDialog.setSize(WIDTH,HEIGHT);
+		loadDialog.setSize(150,100);
+		loadDialog.pack();
 		loadDialog.setLocationRelativeTo(null);
 		loadDialog.setVisible(true);
 		
@@ -163,7 +211,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 	    		i += 2; 
 	    	}
 	            
-	    Thread.sleep(2000);
+	    Thread.sleep(1500);
 	            
 	    SwingUtilities.invokeLater(() -> loadDialog.dispose());
 	    } catch (Exception e) {
@@ -184,15 +232,14 @@ public class LoginWindow extends JFrame implements ActionListener{
 	public void cancelOption() {
 		
 		JPanel ask = new JPanel();
-		ask.add(new JLabel("Do you sure you wish to log out?"));	
+		ask.add(new JLabel("Do you sure you wish to cancel?"));	
 			
 		int result = JOptionPane.showConfirmDialog(this, ask, "Are you sure?",JOptionPane.OK_CANCEL_OPTION);
 				
 		if (result == JOptionPane.OK_OPTION) {
-			 JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
+			 JOptionPane.showMessageDialog(null, "Alright, see you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
 			 System.exit(0);
 		}
-		
 	}
 	
 	public void errorDialog() {

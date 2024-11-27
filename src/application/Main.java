@@ -20,7 +20,9 @@ public class Main{
 	}
 	
 	    public static void main(String[] args) {
+
 	    	new Main();
+	    	
 	    	SwingUtilities.invokeLater(() -> {
 	    	    RegisterWindow ui = new RegisterWindow(sharedSystem);
 	    	    ui.setVisible(true);
