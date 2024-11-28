@@ -35,11 +35,10 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JMenuBar menuBar;
 	
 	//variable for account details 
-	private JLabel lblAccountID, txtBalance, lblAccountType, txtCurrency, txtStatus;
+	private JLabel lblAccountName, lblAccountID, lblBalance, lblAccountType, lblCurrency, lblStatus;
 	
-	JLabel txtAccountID;
 	
-	private JFormattedTextField fldCustomerID, fldAccountID, fldBalance, fldAccountType, fldCurrency, fldStatus;
+	private JFormattedTextField txtAccountID, txtBalance, txtAccountType, txtCurrency, txtStatus;
 	
 	//variable for personal details
 	private JLabel lblCustomerID, lblCustomerName, lblCustomerEmail, lblCustomerPhoneNo;
@@ -136,14 +135,15 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlMainCentral = new JPanel();
 		pnlMainBottom = new JPanel();
 		
-		txtAccountName = new JLabel("Hi " + accountName + ", it's good to see you back!");
-		txtAccountID = new JLabel("Account ID:");
-		fldAccountID = new JFormattedTextField(accountId);
-		txtBalance = new JLabel("Current Balance: ");
-		fldBalance = new JFormattedTextField(accountBalance);
+		lblAccountName = new JLabel("Hi " + accountName + ", it's good to see you back!");
+		lblAccountID = new JLabel("Account ID:");
+		txtAccountID = new JFormattedTextField(accountId);
+		lblBalance = new JLabel("Current Balance: ");
+		txtBalance = new JFormattedTextField(accountBalance);
+		btnLogOut = new JButton("Log Out");
 		
 		//change font and color
-		txtAccountName.setFont(new Font("Arial",Font.BOLD,16));
+		lblAccountName.setFont(new Font("Arial",Font.BOLD,16));
 		
 		//set the layout
 		pnlTop.setLayout(new GridLayout(4,0));
@@ -152,23 +152,23 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		pnlMainBottom.setLayout(new GridLayout(0,6));
 		
 		//add to the panel
-		pnlMainTop.add(txtAccountName, BorderLayout.WEST);
+		pnlMainTop.add(lblAccountName, BorderLayout.WEST);
 		pnlMainTop.add(btnLogOut, BorderLayout.EAST);
 		pnlMainCentral.add(lblAccountID);
 		pnlMainCentral.add(txtAccountID);
+		pnlMainBottom.add(lblBalance);
 		pnlMainBottom.add(txtBalance);
-		pnlMainBottom.add(fldBalance);
 		
 		//adding action to the log out button
 		btnLogOut.addActionListener(this);
 		
 		//set the text field not editable
-//		txtAccountID.setEditable(false);
-		fldBalance.setEditable(false);
+		txtAccountID.setEditable(false);
+		txtBalance.setEditable(false);
 		
 		//set the size of the text field
 		txtAccountID.setPreferredSize(new Dimension(200,25));
-		fldBalance.setPreferredSize(new Dimension(200,25));
+		txtBalance.setPreferredSize(new Dimension(200,25));
 		
 		//add to other panel with position
 		pnlTop.add(pnlMainTop);
@@ -214,18 +214,23 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	}
 	
 	public void addWithdrawPanel() {
+		String accountId = authorisedUser.getID();
+		
 		pnlAdd_Withdraw_List = new JPanel();
 		JPanel mainPanel = new JPanel();
 		JPanel topAddWithdrawPanel = new JPanel();
 		JPanel centralAddWithdrawPanel = new JPanel();
 		JPanel bottomAddWithdrawPanel = new JPanel();
 		lblAccountID = new JLabel("Account ID");
-//		txtAccountID = new JFormattedTextField("D22124534");
+		JFormattedTextField txtAccountID = new JFormattedTextField(accountId);
 		JLabel txtAmount = new JLabel("Amount ");
 		JFormattedTextField fldAmount = new JFormattedTextField(0.00);
 		JButton btnAdd = new JButton("Add");
 		JButton btnWithdrawal = new JButton("Withdraw");
 		JTextArea txtResult = new JTextArea();
+		
+		//set the account ID not editable
+		txtAccountID.setEditable(false);
 		
 		//set the layout
 		mainPanel.setLayout(new BorderLayout());
@@ -254,50 +259,56 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//method that display all the detail of the account
 	protected void accountTable() {
+		String accountId = authorisedUser.getID();
+		Double accountBalance = authorisedUser.getAccount().getBalance();
+		
 		pnlAccountDetail = new JPanel();
 		pnlAccount = new JPanel();
 		lblAccountID = new JLabel("Account ID ");
-//		txtAccountID = new JFormattedTextField("D22124534");
-		txtBalance = new JLabel("Current Balance  ");
-		fldBalance = new JFormattedTextField("1000.00");
-		txtCurrency = new JLabel("Currency  ");
-		fldCurrency = new JFormattedTextField("EUR");
+		txtAccountID = new JFormattedTextField(accountId);
+		lblBalance = new JLabel("Current Balance  ");
+		txtBalance = new JFormattedTextField(accountBalance);
+		lblCurrency = new JLabel("Currency  ");
+		txtCurrency = new JFormattedTextField("EUR");
 		lblAccountType = new JLabel("Account Type  ");
-		fldAccountType = new JFormattedTextField("Advance");
-		txtStatus = new JLabel("Status  ");
-		fldStatus = new JFormattedTextField("Active");
+		txtAccountType = new JFormattedTextField("Advance");
+		lblStatus = new JLabel("Status  ");
+		txtStatus = new JFormattedTextField("Active");
 		
 		//set it to grid layout
 		pnlAccount.setLayout(new GridLayout(5,2));
 		
+		//set the account ID not editable
+		txtAccountID.setEditable(false);
+		
 		//set the status to green if is active
-		fldStatus.setForeground(Color.GREEN);
+		txtStatus.setForeground(Color.GREEN);
 		
 		//set the text field not editable
 //		txtAccountID.setEditable(false);
-		fldBalance.setEditable(false);
-		fldCurrency.setEditable(false);
-		fldAccountType.setEditable(false);
-		fldStatus.setEditable(false);
+		txtBalance.setEditable(false);
+		txtCurrency.setEditable(false);
+		txtAccountType.setEditable(false);
+		txtStatus.setEditable(false);
 		
 		//set the preferred size of text field
 		txtAccountID.setPreferredSize(new Dimension(250,50));
-		fldBalance.setPreferredSize(new Dimension(250,50));
-		fldCurrency.setPreferredSize(new Dimension(250,50));
-		fldAccountType.setPreferredSize(new Dimension(250,50));
-		fldStatus.setPreferredSize(new Dimension(250,50));
+		txtBalance.setPreferredSize(new Dimension(250,50));
+		txtCurrency.setPreferredSize(new Dimension(250,50));
+		txtAccountType.setPreferredSize(new Dimension(250,50));
+		txtStatus.setPreferredSize(new Dimension(250,50));
 
 		//add to the pnlAccount
 		pnlAccount.add(lblAccountID);
 		pnlAccount.add(txtAccountID);
+		pnlAccount.add(lblBalance);
 		pnlAccount.add(txtBalance);
-		pnlAccount.add(fldBalance);
+		pnlAccount.add(lblCurrency);
 		pnlAccount.add(txtCurrency);
-		pnlAccount.add(fldCurrency);
 		pnlAccount.add(lblAccountType);
-		pnlAccount.add(fldAccountType);
+		pnlAccount.add(txtAccountType);
+		pnlAccount.add(lblStatus);
 		pnlAccount.add(txtStatus);
-		pnlAccount.add(fldStatus);
 		
 		//add to the pnlAccountDetail panel
 		pnlAccountDetail.add(pnlAccount, BorderLayout.CENTER);
@@ -371,7 +382,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		lblAccountType = new JLabel("Account Type:");
 		JComboBox<String> cbAccountType = new JComboBox<>(arrAccountType);
 		lblAccountID = new JLabel("Enter Account ID:");
-//		txtAccountID = new JFormattedTextField();
+		txtAccountID = new JFormattedTextField();
 		JLabel lblAmountTransfer = new JLabel("Enter the Amount:");
 		JFormattedTextField txtAmountTransfer = new JFormattedTextField();
 		JButton btnComfirm = new JButton("Comfirm");
@@ -421,6 +432,8 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	public void exchangePanel() {
 		String[] arrExchangeCurrency = {"EUR","USD-Dollar","GBP","SGD","PHP","JPY","MYR"};
+		Double accountBalance = authorisedUser.getAccount().getBalance();
+		
 		pnlExchange = new JPanel();
 		JPanel mainPanel = new JPanel();
 		JPanel topMainPanel = new JPanel();
@@ -428,7 +441,7 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		JPanel bottomMainPanel = new JPanel();
 		JLabel lblExchangeMessage = new JLabel("Exchange Here");
 		JLabel lblExchangeAmount = new JLabel("Main Amount: ");
-		JFormattedTextField txtExchangeAmount = new JFormattedTextField();
+		JFormattedTextField txtExchangeAmount = new JFormattedTextField(accountBalance);
 		JComboBox<String> cmbExchangeCurrency = new JComboBox<>(arrExchangeCurrency);
 		JLabel lblTargetExchangeAmount = new JLabel("Target Amount: ");
 		JFormattedTextField txtTargetExchangeCurrency = new JFormattedTextField();
