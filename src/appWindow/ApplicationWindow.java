@@ -30,14 +30,12 @@ import java.util.LinkedList;
 public class ApplicationWindow extends JFrame implements ActionListener{
 	
 	//variable for menu
-	private JMenu user,view,placeOrder;
-	private JMenuItem logOut, quit;
+	private JMenu user,loan,help;
+	private JMenuItem loanApplication,logOut, quit;
 	private JMenuBar menuBar;
 	
 	//variable for account details 
 	private JLabel lblAccountName, lblAccountID, lblBalance, lblAccountType, lblCurrency, lblStatus;
-	
-	
 	private JFormattedTextField txtAccountID, txtBalance, txtAccountType, txtCurrency, txtStatus;
 	
 	//variable for personal details
@@ -48,7 +46,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 	private JPanel pnlTop, pnlBottom;
 	private JPanel pnlPersonalDetail,pnlAdd_Withdraw_List, pnlTransfer, pnlExchange, pnlAccountDetail;
 	private JPanel pnlMainTop, pnlMainCentral,pnlMainBottom;
-	private JLabel txtAccountName;
 	private JTabbedPane tbpList;
 	private JButton btnLogOut;
 	private Date date;
@@ -96,9 +93,10 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		user.addSeparator(); //adding line between
 		quit = new JMenuItem("Quit");
 		
-		view = new JMenu("Review");
+		loan = new JMenu("Loan");
+		loanApplication = new JMenuItem("Loan Application");
 		
-		placeOrder = new JMenu("Order");
+		help = new JMenu("Help");
 		
 		//set the short cut for the function
 		logOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,Event.CTRL_MASK));
@@ -107,15 +105,18 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//adding to the user menu
 		user.add(logOut);
 		user.add(quit);
+		loan.add(loanApplication);
 		
 		//adding action to the menu
+		loanApplication.addActionListener(this);
 		logOut.addActionListener(this);
 		quit.addActionListener(this);
 		
+		
 		//adding to the menu bar object
 		menuBar.add(user);
-		menuBar.add(view);
-		menuBar.add(placeOrder);
+		menuBar.add(loan);
+		menuBar.add(help);
 		
 		//adding it to the frame
 		this.setJMenuBar(menuBar);
@@ -285,7 +286,6 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		txtStatus.setForeground(Color.GREEN);
 		
 		//set the text field not editable
-//		txtAccountID.setEditable(false);
 		txtBalance.setEditable(false);
 		txtCurrency.setEditable(false);
 		txtAccountType.setEditable(false);
@@ -481,13 +481,93 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 		//add to the exchange tab table panel
 		pnlExchange.add(mainPanel);
 	}
+	
+	protected void loanMenu() {
+		String[] arrCompound = {"Daily(APR)","Weekly(APR)","Monthly(APR)"};
+		String[] arrPayBack = {"Every Day","Every Week","Every Month"};
+		
+		JDialog loanDialog = new JDialog();
+		loanDialog.setLayout(new BorderLayout());
+		loanDialog.setVisible(true);
+		
+		JPanel topPanel = new JPanel();
+		JPanel westPanel = new JPanel();
+		JPanel eastPanel = new JPanel();
+		JPanel bottomPanel = new JPanel();
+		
+		JPanel westNorthPanel = new JPanel();
+		
+		JLabel lblLoanApplicationForm = new JLabel("Loan Application Form");
+		JLabel lblLoanBalance = new JLabel("Loan Balance");
+		JFormattedTextField txtLoanBalance = new JFormattedTextField();
+		JLabel lblInterestRate = new JLabel("Interest Rate");
+		JFormattedTextField txtInterestRate = new JFormattedTextField();
+		JLabel lblCompound = new JLabel("Compound");
+		JComboBox<String> cmbCompound = new JComboBox<>(arrCompound);
+		JLabel lblPayBack = new JLabel("Pay Back");
+		JComboBox<String> cmbPayBack = new JComboBox<>(arrPayBack);
+		JLabel lblRepayTime = new JLabel("Repay within the fixed time");
+		JTextField txtYear = new JTextField("Year");
+		JTextField txtMonth = new JTextField("Month");
+		JLabel lblResult = new JLabel("Result");
+		JTextArea txtResult = new JTextArea();
+		JButton btnCalculate = new JButton("Calculate");
+		JButton btnClear = new JButton("Clear");
+		
+		//add to the top panel
+		topPanel.add(lblLoanApplicationForm);
+		
+		//set the layout for west panel
+		westPanel.setLayout(new GridLayout(7,2,10,10));
+		westPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+		
+		//add to the west panel
+		westPanel.add(lblLoanBalance);
+		westPanel.add(txtLoanBalance);
+		westPanel.add(lblInterestRate);
+		westPanel.add(txtInterestRate);
+		westPanel.add(lblCompound);
+		westPanel.add(cmbCompound);
+		westPanel.add(lblPayBack);
+		westPanel.add(cmbPayBack);
+		westPanel.add(lblRepayTime);
+		westPanel.add(new JPanel(new FlowLayout(FlowLayout.LEFT)) {{
+	        add(txtYear);
+	        add(txtMonth);
+	    }});
+		
+		//set the layout for east panel
+		eastPanel.setLayout(new BorderLayout());
+		
+		//add to the west panel
+		eastPanel.add(lblResult, BorderLayout.NORTH);
+		eastPanel.add(txtResult, BorderLayout.CENTER);
+		
+		//add to the bottom panel
+		bottomPanel.add(btnCalculate);
+		bottomPanel.add(btnClear);
+		
+		//eastPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding
+		loanDialog.add(topPanel, BorderLayout.NORTH);
+		loanDialog.add(westPanel, BorderLayout.WEST);
+		loanDialog.add(eastPanel, BorderLayout.CENTER);
+		loanDialog.add(bottomPanel, BorderLayout.SOUTH);
+		
+		loanDialog.setSize(WIDTH,HEIGHT);
+		loanDialog.setLocationRelativeTo(null);
+		loanDialog.setResizable(true);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("Log Out")) {
 			logOut();
-		} else {
+		} else if (e.getActionCommand().equals("Add")) {
+			
+		} else if (e.getActionCommand().equals("Loan Application")) {
+			loanMenu();
+		}else {
 			System.exit(0);
 		}
 	}
@@ -519,8 +599,8 @@ public class ApplicationWindow extends JFrame implements ActionListener{
 			
 		 	if (result == JOptionPane.OK_OPTION) {
 		 		authorisedUser.setAttempt(0);
-		 		view.setEnabled(false);
-		 		placeOrder.setEnabled(false);
+		 		loan.setEnabled(false);
+		 		help.setEnabled(false);
 		 		JOptionPane.showMessageDialog(null, "See you later ~ ~","Info", JOptionPane.INFORMATION_MESSAGE);
 			}
 //>>>>>>> dbf0b35761bf67d3e1b70b3b09389371fd8f7b20

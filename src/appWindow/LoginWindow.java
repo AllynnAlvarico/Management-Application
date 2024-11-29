@@ -136,7 +136,11 @@ public class LoginWindow extends JFrame implements ActionListener{
 			
 			if(isFound && referencedUser != null) {
 				JOptionPane.showMessageDialog(null, "Account '" + referencedUser.getUserName() + " 'Has Found - You Have Login Successfully","Login Success",JOptionPane.INFORMATION_MESSAGE);
-				loadingPanel(); //loading animation
+				//loadingPanel(); //loading animation
+				ApplicationWindow mainApp = new ApplicationWindow(managementSystem, referencedUser);
+	            mainApp.setLocationRelativeTo(null);
+	            mainApp.setVisible(true);
+	            LoginWindow.this.dispose(); // Close the login window
 				LoginWindow.this.dispose();
 			} else if(!isFound || referencedUser == null)
 				errorDialog();
@@ -224,6 +228,7 @@ public class LoginWindow extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand().equals("Cancel")) {
 					cancelOption();
+					//registerWindow();
 				}
 			}
 		});
