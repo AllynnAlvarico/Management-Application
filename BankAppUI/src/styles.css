@@ -6,3 +6,23 @@
 * {
   @apply font-chocolate-classical;
 }
+
+@layer utilities {
+
+  .button-default-medium {
+    @apply text-white font-medium;
+    @apply bg-bank-blue-500;
+    @apply rounded-lg;
+    @apply hover:bg-bank-blue-100 hover:text-bank-blue-500;
+    @apply  transition;
+  }
+  .button-default-large {
+    @apply text-white font-medium text-lg;
+    @apply bg-bank-blue-500;
+    @apply rounded-lg;
+    @apply hover:bg-bank-blue-100 hover:text-bank-blue-500;
+    @apply  transition;
+  }
+}
+
+

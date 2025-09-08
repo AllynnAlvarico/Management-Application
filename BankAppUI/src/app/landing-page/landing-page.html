@@ -1,1 +1,32 @@
-<p>landing-page works!</p>
+<div class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <app-navigation></app-navigation>
+  <!-- Hero Section -->
+  <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 items-center">
+    <!-- Left Content -->
+    <div>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        Dumb Bank helps you <br /> grow your money
+      </h1>
+      <p class="text-gray-600 mb-6">
+        Take control with all-in-one investment, retirement, checking, and more.
+      </p>
+      <a
+        routerLink="/signup"
+        class="px-6 py-3 button-default-large"
+      >
+        Get started
+      </a>
+    </div>
+
+    <!-- Right Content -->
+    <div class="relative">
+      <div class="absolute -left-8 -top-8 w-24 h-24 bg-bank-blue-100 rounded-full"></div>A
+      <img
+        src="/CardAndPhone.png"
+        alt="Dumb Bank Mobile"
+        class=" mx-4 -my-2 relative z-10 rounded-3xl"
+        height="500" width="500"/>
+    </div>
+  </div>
+</div>

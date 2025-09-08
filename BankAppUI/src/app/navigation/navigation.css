@@ -1,0 +1,9 @@
+a {
+  @apply text-bank-blue-500;
+  @apply hover:text-bank-blue-100;
+}
+
+.button-default-medium {
+  @apply text-white;
+  @apply hover:bg-bank-blue-100 hover:text-bank-blue-500;
+}
