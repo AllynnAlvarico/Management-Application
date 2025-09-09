@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    @Override
-    public Optional<User> getByUserEmail(String email) {
-        return userRepository.findByUser_email(email);
-    }
+//    @Override
+//    public Optional<User> getByUserEmail(String email) {
+//        return userRepository.getUserByUser_email(email);
+//    }
 
     public User addUser(User user) {
         user.setUserId(new UUIDGenerator().generateUserID(userRepository));

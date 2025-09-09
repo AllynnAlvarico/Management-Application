@@ -21,17 +21,17 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestParam String user_email, @RequestParam String password) {
-        Optional<User> userOptional = userService.getByUserEmail(user_email);
-        if (userOptional.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        if(!userOptional.get().getPassword().equals(password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<User> login(@RequestParam String user_email, @RequestParam String password) {
+//        Optional<User> userOptional = userService.getByUserEmail(user_email);
+//        if (userOptional.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        if(!userOptional.get().getPassword().equals(password)) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
+//    }
 }
