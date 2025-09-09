@@ -1,0 +1,31 @@
+<form [formGroup]="userSignupForm" (ngSubmit)="onSubmitApplication()">
+  <div class="mb-4">
+    <label for="name" class="block text-gray-700">Full Name</label>
+    <input id="name" type="text" placeholder="Your name" formControlName="name"
+           class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+  </div>
+
+
+  <div class="mb-4">
+    <label for="user_email" class="block text-gray-700">Email Address</label>
+    <input id="user_email" type="email" placeholder="you@example.com" formControlName="user_email"
+           class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+  </div>
+
+  <div class="mb-4">
+    <label for="user_password" class="block text-gray-700">Password</label>
+    <input id="user_password" type="password" placeholder="********" formControlName="user_password"
+           class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+  </div>
+
+  <div class="mb-6">
+    <label class="block text-gray-700">Confirm Password</label>
+    <input type="password" placeholder="********"
+           class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+  </div>
+
+  <button type="submit"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition duration-300 ">
+    Sign Up
+  </button>
+</form>
