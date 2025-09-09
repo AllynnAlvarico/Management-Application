@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
+
 import {NgIf} from '@angular/common';
 import { SuccessOverlay } from '../../common/success-overlay/success-overlay';
 
@@ -16,8 +18,11 @@ import { SuccessOverlay } from '../../common/success-overlay/success-overlay';
 })
 export class LoginForm {
 
+  constructor(private router: Router) {}
+
   email: string = "demo@bank.com"
   password: string = "qwerty1234"
+
   showOverlay = false;
 
   loginForm = new FormGroup({
@@ -29,7 +34,7 @@ export class LoginForm {
     if (this.loginForm.valid) {
       const { email  , password } = this.loginForm.value;
       this.showConsole(this.checkCredential(email, password));
-
+      this.router.navigate(['/user'], { queryParams: { user: email } });
     }
   }
 
