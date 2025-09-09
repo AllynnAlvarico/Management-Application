@@ -3,7 +3,6 @@ import { LandingPage } from './landing-page/landing-page';
 import { LoginPage } from './login-page/login-page';
 import { SignupPage } from './signup-page/signup-page';
 import { User } from './user/user';
-// import { User } from './user/dashboard/dashboard';
 
 export const routes: Routes = [
   {path: '', component: LandingPage},
