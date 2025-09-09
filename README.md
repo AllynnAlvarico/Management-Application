@@ -9,6 +9,7 @@ This repository is an **attempt to build a modern banking application** using a 
 - [Angular](https://angular.io/) (frontend)
 - [Tailwind CSS](https://tailwindcss.com/) (styling)
 - [Spring Boot](https://spring.io/projects/spring-boot) (backend, Java)
+- [MySQL](https://www.mysql.com/) (database, SQL)
 
 The primary goal is to **demonstrate and integrate skills learned over the summer** by designing and implementing the essential features of a bank application—including authentication, account management, and basic transactions.
 
