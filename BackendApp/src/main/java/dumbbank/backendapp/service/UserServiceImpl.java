@@ -2,6 +2,7 @@ package dumbbank.backendapp.service;
 
 import dumbbank.backendapp.model.User;
 import dumbbank.backendapp.repository.UserRepo;
+import dumbbank.backendapp.service.interfaces.UserService;
 import dumbbank.backendapp.util.UUIDGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,14 @@ import java.util.Optional;
 
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
+
+    private final UserRepo userRepository;
 
     @Autowired
-    private UserRepo userRepository;
+    public UserServiceImpl(UserRepo userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -23,6 +28,11 @@ public class UserService {
 
     public Optional<User> getByUserId(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> getByUserEmail(String email) {
+        return userRepository.findByUser_email(email);
     }
 
     public User addUser(User user) {

@@ -1,7 +1,7 @@
 package dumbbank.backendapp.controller;
 
 import dumbbank.backendapp.model.User;
-import dumbbank.backendapp.service.UserService;
+import dumbbank.backendapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping("/all users")
     public List<User> getAllUsers() {
