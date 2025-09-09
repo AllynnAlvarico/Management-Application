@@ -23,7 +23,7 @@
   },
   "private": true,
   "engines": {
-    "node": "18.17.0"
+    "node": "20.11.1"
   },
   "dependencies": {
     "@angular/common": "^20.2.0",
