@@ -19,6 +19,16 @@ public class User {
     @Column(name = "username", nullable = false)
     private String password;
 
+    public User() {}
+
+    public User(Long id, String userId, String username, String password) {
+        this.id = id;
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+    }
+
+    
     // Setters
     public void setId(Long id) {
         this.id = id;
@@ -36,7 +46,7 @@ public class User {
         this.password = password;
     }
 
-
+    // Getter
     public Long getId() {
         return id;
     }
