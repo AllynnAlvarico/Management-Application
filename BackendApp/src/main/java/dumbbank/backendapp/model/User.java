@@ -3,32 +3,32 @@ package dumbbank.backendapp.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "dumbbank_users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "userID")
+    @Column(name = "userId", nullable = true, unique = true)
     private String userId;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(name = "user_email", nullable = false, unique = true)
+    private String user_email;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     public User() {}
 
-    public User(Long id, String userId, String username, String password) {
+    public User(Long id, String userId, String user_email, String password) {
         this.id = id;
         this.userId = userId;
-        this.username = username;
+        this.user_email = user_email;
         this.password = password;
     }
 
-    
+
     // Setters
     public void setId(Long id) {
         this.id = id;
@@ -38,8 +38,8 @@ public class User {
         this.userId = userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
     public void setPassword(String password) {
@@ -53,8 +53,8 @@ public class User {
 
     public String getUserId() { return this.userId; }
 
-    public String getUsername() {
-        return username;
+    public String getUser_email() {
+        return user_email;
     }
 
     public String getPassword() {
